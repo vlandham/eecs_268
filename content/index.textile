@@ -7,7 +7,8 @@ filter:
 h2. Labs
 
 <% labs = @pages.find(:all, :in_directory => "labs" ) %>
-
+<% labs.sort! {|x,y| x.order.to_i <=> y.order.to_i } %>
+<% labs.reject! {|lab| lab.order.to_i > SITE.latest} %>
 <% labs.each do |lab| %>
 h3. <%= link_to lab.title, lab  %>
 <% end %>
@@ -27,6 +28,3 @@ class Object
   end
 end
 <% end -%>
-
-
-bq. Nullam mattis, odio ut tempus facilisis, metus nisl facilisis metus, auctor consectetuer felis ligula nec mauris. Vestibulum odio erat, fermentum at, commodo vitae, ultrices et, urna. Mauris vulputate, mi pulvinar sagittis condimentum, sem nulla aliquam velit, sed imperdiet mi purus eu magna. Nulla varius metus ut eros. Aenean aliquet magna eget orci. Class aptent taciti sociosqu ad litora.

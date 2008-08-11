@@ -3,6 +3,8 @@ extension: html
 filter:
   - erb
   - basepath
+
+latest: 03
 ---
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "DTD/xhtml1-strict.dtd">
@@ -22,6 +24,7 @@ filter:
 
    <!-- Homepage CSS -->
    <link rel="stylesheet" href="/css/site.css" type="text/css" media="screen, projection" />
+   <link rel="stylesheet" href="/css/print.css" type="text/css" media="print" />
 </head>
 <body>
 
@@ -37,19 +40,24 @@ filter:
       <%= @content %>
    </div>
 
-   <div class="column span-5 append-2 last">
-      <h4>Sidebar</h4>
-      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. </p>
-      
-
-      <div class="box">
-         <p class="last">Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
+   <div class="column span-5 append-2 last side">
+      <div id="nav">
+          <a class="button" href="<%= url_for_page :title => "Home Page" %>">
+        	  <img src="/css/blueprint/plugins/buttons/icons/key.png" alt=""/> Home
+        	</a>
+          <a class="button" href="/password/reset/">
+        	  <img src="/css/blueprint/plugins/buttons/icons/key.png" alt=""/> Change Password
+        	</a>
       </div>
+      
+      <div class="clear">
+        
+      </div>
+      
+      <div class="box">
+          <p class="last">Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
+       </div>
 
-      <p class="quiet">This is the quiet class -- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
-
-      <h5>Incremental leading</h5>
-      <p class="incr">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus.</p>
    </div>
 
    <div class="column span-20 prepend-2 append-2 first last" id="footer">

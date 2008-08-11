@@ -1,11 +1,12 @@
 ---
 title:  Introduction
 layout: default
-number: 01
+
 filter:
   - erb
   - textile
-
+  
+order: 00
 ---
 
 h1. Introduction
@@ -15,13 +16,13 @@ h2. General Information
 h3. Login in to Linux machines
 
 If there is a problem, go to desk in 1005 for assistance
-	
+
 h3. Communication Protocol
 
 "EECS 268 website":http://people.eecs.ku.edu/~jvalland will be updated with assignments / reference material / announcements.
 
 Email for important information will be sent to *class-registered* email address
-	
+
 h2. Linux Tools
 
 h3. Text-editors
@@ -29,24 +30,26 @@ h3. Text-editors
 * gedit -- "Text Editor" on Lab Machines
 * emacs
 * vim
-	
+
 h3. g++ 
 
 GNU project c++ compiler.
 
 Used to compile programs into object files & link object files together for an executable.
 (object file is a processed version of source code file.  Has to contain Machine code, might contain other info i.e. for debuggers.)
-	
+
 h4. g++ Examples:
 
 Compile to object file:
-
-p((. @g++ -c HelloWorld.cpp		>> 		HelloWorld.o@
-		
-Link object files together:
-
-p((. @g++ HelloWorld.o MyClass.o -o executable		>> 		executable@
+<code>
+    g++ -c HelloWorld.cpp		>> 		HelloWorld.o
+</code>
 	
+Link object files together:
+<code>
+    g++ HelloWorld.o MyClass.o -o executable		>> 		executable
+</code>
+
 h3. Make
 
 Tool for automatically building large (or small) applications.
@@ -61,19 +64,20 @@ We would like to create an application with the name "@lab1@".
 
 makefile:
 
-@lab1:HelloWorld.o MyClass.o@
-p((. @g++ HelloWorld.o MyClass.o -o lab1@
-
-@HelloWorld.o:HelloWorld.cpp MyClass.h@
-p((. @g++ -c HelloWorld.cpp@
-
-@MyClass.o:MyClass.h MyClass.cpp@
-p((. @g++ -c MyClass.cpp@
-			
-@clean:@
-p((. @rm -f *.o *~ lab1@
+<pre>
+  <code>
+    lab1:HelloWorld.o MyClass.o
+      g++ HelloWorld.o MyClass.o -o lab1
+    HelloWorld.o:HelloWorld.cpp MyClass.h
+      g++ -c HelloWorld.cpp
+    MyClass.o:MyClass.h MyClass.cpp
+      g++ -c MyClass.cpp
+    clean:
+      rm -f *.o *~ lab1
+  </code>
+</pre>
 		
-"sample makefile":http://people.eecs.ku.edu/~jvalland/268/files/intro/makefile
+"sample makefile":http://people.eecs.ku.edu/~jvalland/files/intro/makefile
 
 h4. Makefile explanation 
 
@@ -90,7 +94,7 @@ In the example above, make would start with the @lab1@ target and then move to t
 @clean@ is a target in this make file with no prerequisites.  Running @make clean@ would remove all files ending with ".o" and "~" as well as the @lab1@ executable.
 
 *Note:* The command line for each make rule needs to start with a _tab_ character.
-	
+
 h3. Debugging
 
 Symbolic debuggers allow for the examination of the internal workings of a program during its execution.  From the gdb man page: "The purpose of a debugger is to allow you to see what is going on 'inside' another program while it executes."  gdb is the GNU debugger, a command-line debugging utility that provides all the common functionality of a debugger. Debuggers allow you to look at the internals of a program in many ways including:
@@ -118,8 +122,9 @@ h3. Tar file generation
 Projects containing more than one file should be packaged together as a tar file for submission.  
 
 Sample tar command:
-
-p((. @tar cf jvalland_project1.tar jvalland_project1@
+<code>
+    tar cf jvalland_project1.tar jvalland_project1
+</code>
 
 Explanation:
 
@@ -139,11 +144,12 @@ Flag:
 
 * @x@ is to extract the tar file.
 
-*Note:* The submitted tar file for labs and projects should contain your _student id number_ as well as an indication as to which project / lab is being submitted.
+*Note:* The submitted tar file for labs and projects should contain your _first / last name_ as well as an indication as to which project / lab is being submitted.
 
 Example:
-
-p((.  @1234555_lab01.tar@ 
+<code>
+  jvalland_lab01.tar
+</code>
 
 h3. Other useful commands
 

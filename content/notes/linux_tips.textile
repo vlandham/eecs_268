@@ -12,8 +12,9 @@ h2. Navigation
 *Q:* How do I move back a directory?
 
 *A:* The characters "@..@" represent the parent directory.  So To move back one directory you would use:
-
-@cd ..@
+<code>
+    cd .. 
+</code>
 
 h2. Packaging Project Submissions
 
@@ -23,9 +24,14 @@ Labs and project submissions are expected to come in a single @.tar@ or @.tar.gz
 
 h3. Sample make rule:
 
-p((. @clean:@
+Here's the clean rule:
 
-p(((. @rm -f *.o *~ lab1@
+<pre>
+  <code>
+    clean:
+      rm -f *.o *~ lab1
+  </code>
+</pre>
 
 In this example, we assume "@lab1@" an executable. For your specific project, you would want to include the specific executables of your program.
 
@@ -52,15 +58,17 @@ Click on 'Open' and then log in with your eecs username and password. You should
 *Mac / Linux*
 Both have ssh by default.  Open a terminal window, which for Mac is located in Applications/Utilities.  Use a command similar to:
 
-@ssh username@wozniak.eecs.ku.edu@
+<code>
+  ssh username@wozniak.eecs.ku.edu
+</code>
 
-Where @username@ is your eecs account username.
+Where @username@ is your *eecs account* username.
 
-_In addition_, both Mac and Linux have the ability to mount a ssh drive as if it were a local drive.  Meaning, it looks like just another drive and you can edit your files directly on the eecs machines from your home.  
+*In addition*, both Mac and Linux have the ability to mount a ssh drive as if it were a local drive.  Meaning, it looks like just another drive and you can edit your files directly on the eecs machines from your home.  
 
 *Linux:* In the Gnome Window's manager, under "Places", there is an option to 'Connect to Server'.  From this window, you can connect to a ssh server which will appear on your desktop.
 
-*Mac:*  The recent release of "MacFuse":http://code.google.com/p/macfuse/ from Google allows a similar way to mount ssh directories.  I recommend using "MacFusion":http://www.sccs.swarthmore.edu/users/08/mgorbach/MacFusionWeb/ as a front end to this service.
+*Mac:*  The recent release of "MacFuse":http://code.google.com/p/macfuse/ from Google allows a similar way to mount ssh directories.  I recommend using "MacFusion":http://www.macfusionapp.org/ as a front end to this service.
 
 Windows / Mac / Linux users can also use *sftp* to access and edit remote files and upload files to the eecs machines to be tested.
 
@@ -100,6 +108,16 @@ There are a multitude of free text editors.  Here are some:
 "TextMate":http://www.macromates.com/ *NOT* free but my favorite editor on any platform.  Directory view is a very powerful feature.  Also is easily extendable with snippets and shortcuts.  
 
 "Xcode":http://www.apple.com/macosx/features/xcode/ Similar capabilities and functionality as Eclipse.  A complete platform rather than just an editor.  Geared toward creating Cocoa applications, but can be used for C++.  Freely available on the installation disk or Apple's developers site. 
+
+"Eclipse":http://www.eclipse.org/ See above
+
+*Linux*
+
+"Eclipse":http://www.eclipse.org/ See above
+
+"Gedit":http://www.gnome.org/projects/gedit/ Official text editor for Gnome desktop.  Its what you use when you select the "Text Editor" on the Red Hat machines on campus.
+
+"Kate":http://kate-editor.org/ Used in the KDE desktop environment.  Very powerful.
 
 
 h2. Linux Tools

@@ -5,7 +5,8 @@ filter:
   - erb
   - textile
 ---
-h1. Gedit help
+
+h1. Gedit Help
 
 h2. Configuration
 
