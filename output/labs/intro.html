@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+
+<html xml:lang="en" lang="en-us" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>Introduction</title>
+   <meta name="author" content="" />
+
+   <!--- Blueprint CSS Framework -->
+   <link href="/~jvalland/css/blueprint/screen.css" rel="stylesheet" type="text/css" media="screen, projection" />
+   <link href="/~jvalland/css/blueprint/print.css" rel="stylesheet" type="text/css" media="print" />
+
+   <!-- CodeRay syntax highlighting CSS -->
+   <link href="/~jvalland/css/coderay.css" rel="stylesheet" type="text/css" />
+
+   <!-- Homepage CSS -->
+   <link href="/~jvalland/css/site.css" rel="stylesheet" type="text/css" media="screen, projection" />
+</head>
+<body>
+
+<div class="container">
+
+   <div class="column span-20 prepend-2 append-2 first last" id="header">
+     <p class="title">EECS 268 - Lab</p>
+     <p class="subtitle">Fall 2008</p>
+     <hr />
+   </div>
+  
+   <div class="column span-15 prepend-2 first">
+      <h1>Introduction</h1>
+
+
+	<h2>General Information</h2>
+
+
+	<h3>Login in to Linux machines</h3>
+
+
+	<p>If there is a problem, go to desk in 1005 for assistance</p>
+
+
+	<h3>Communication Protocol</h3>
+
+
+	<p><a href="http://people.eecs.ku.edu/~jvalland">EECS 268 website</a> will be updated with assignments / reference material / announcements.</p>
+
+
+	<p>Email for important information will be sent to <strong>class-registered</strong> email address</p>
+
+
+	<h2>Linux Tools</h2>
+
+
+	<h3>Text-editors</h3>
+
+
+	<ul>
+	<li>gedit&#8212;&#8220;Text Editor&#8221; on Lab Machines</li>
+		<li>emacs</li>
+		<li>vim</li>
+	</ul>
+
+
+	<h3>g++</h3>
+
+
+	<p>GNU project c++ compiler.</p>
+
+
+	<p>Used to compile programs into object files &#38; link object files together for an executable.
+(object file is a processed version of source code file.  Has to contain Machine code, might contain other info i.e. for debuggers.)</p>
+
+
+	<h4>g++ Examples:</h4>
+
+
+	<p>Compile to object file:</p>
+
+
+	<p style="padding-left:2em;"><code>g++ -c HelloWorld.cpp        &gt;&gt;         HelloWorld.o</code></p>
+
+
+	<p>Link object files together:</p>
+
+
+	<p style="padding-left:2em;"><code>g++ HelloWorld.o MyClass.o -o executable        &gt;&gt;         executable</code></p>
+
+
+	<h3>Make</h3>
+
+
+	<p>Tool for automatically building large (or small) applications.</p>
+
+
+	<p>Usually used with C or C++ programs, but could be used for any language</p>
+
+
+	<h4>Basic Makefile:</h4>
+
+
+	<p>Assume we have 3 files: <code>MyClass.h</code>, <code>MyClass.cpp</code>, and <code>HelloWorld.cpp</code>.
+Assume <code>HelloWorld.cpp</code> depends on <code>MyClass.h</code> 
+We would like to create an application with the name &#8220;<code>lab1</code>&#8221;.</p>
+
+
+	<p>makefile:</p>
+
+
+<code>lab1:HelloWorld.o MyClass.o</code>
+	<p style="padding-left:2em;"><code>g++ HelloWorld.o MyClass.o -o lab1</code></p>
+
+
+<code>HelloWorld.o:HelloWorld.cpp MyClass.h</code>
+	<p style="padding-left:2em;"><code>g++ -c HelloWorld.cpp</code></p>
+
+
+<code>MyClass.o:MyClass.h MyClass.cpp</code>
+	<p style="padding-left:2em;"><code>g++ -c MyClass.cpp</code></p>
+
+
+<code>clean:</code>
+	<p style="padding-left:2em;"><code>rm -f *.o *~ lab1</code></p>
+
+
+	<p><a href="http://people.eecs.ku.edu/~jvalland/268/files/intro/makefile">sample makefile</a></p>
+
+
+	<h4>Makefile explanation</h4>
+
+
+	<p>Each pair in the makefile is considered a <strong>Make Rule</strong>.  Make rules are composed in the following manner:</p>
+
+
+	<p><code>target:prerequisites</code></p>
+
+
+	<p><em>tab</em>   <code>commands</code></p>
+
+
+	<p>Make starts at the first target and looks to see if its prerequisites have any commands associated with them.  Make continues down the chain until it reaches a target with no prerequisites or one whose prerequisites have no associated rules.  Also through this process, it checks to see if each target is up-to-date, that is, if their have been modifications to the files associated with a particular target.</p>
+
+
+	<p>In the example above, make would start with the <code>lab1</code> target and then move to the <code>HelloWorld.o</code> and <code>MyClass.o</code> targets.  Both of these targets have prerequisites with no rules associated with them.  Running <code>make</code> or <code>make lab1</code> would first cause the <code>HelloWorld.o</code> and <code>MyClass.o</code> object files to be generated from the commands associated with these targets.  Then the <code>lab1</code> executable would be compiled from those object files using the <code>g++ HelloWorld.o MyClass.o -o lab1</code> command.</p>
+
+
+	<p><code>clean</code> is a target in this make file with no prerequisites.  Running <code>make clean</code> would remove all files ending with &#8221;.o&#8221; and &#8221;~&#8221; as well as the <code>lab1</code> executable.</p>
+
+
+	<p><strong>Note:</strong> The command line for each make rule needs to start with a <em>tab</em> character.</p>
+
+
+	<h3>Debugging</h3>
+
+
+	<p>Symbolic debuggers allow for the examination of the internal workings of a program during its execution.  From the gdb man page: &#8220;The purpose of a debugger is to allow you to see what is going on &#8216;inside&#8217; another program while it executes.&#8221;  gdb is the GNU debugger, a command-line debugging utility that provides all the common functionality of a debugger. Debuggers allow you to look at the internals of a program in many ways including:</p>
+
+
+	<ul>
+	<li>Setting up break-points to halt the execution of a program at a certain point, or under certain conditions.</li>
+		<li>Stepping through the execution of a program line by line</li>
+		<li>Observing changes in variables used in the program over time.</li>
+	</ul>
+
+
+	<p>ddd or Data Display Debugger is a front-end to gdb which provides a graphical user interface for debugging with gdb.</p>
+
+
+	<p><strong>Note:</strong> In order to use gdb (and therefore ddd), all components of a program must be compiled using the &#8220;<code>-g</code>&#8221; flag.</p>
+
+
+	<p><a href="http://people.eecs.ku.edu/~jvalland/268/files/lab01/sample_lab_with_debugging.tar">Sample Program to Debug</a></p>
+
+
+	<h4>Common Commands in ddd</h4>
+
+
+	<ul>
+	<li>The <strong>Step</strong> command advances execution by one line and will step into calls. This means that if the line executed is a function, you&#8217;ll be placed into the function and be allowed to step through it or do whatever else you want.</li>
+		<li>The <strong>Next</strong> command also executes one line but steps over calls. That is, it does not leave the current function to enter into another one.</li>
+		<li>The <strong>Cont</strong> command will continue execution until the next breakpoint is reached or the program otherwise ends or is interrupted.</li>
+		<li>The <strong>Up</strong> command on the Command Tool allows you to look at the function that called the current function. You will be moved there in the Source Window and the arrow will point at the line the function is called from.</li>
+		<li>The <strong>Down</strong> command will return you to the function that the current one called.</li>
+	</ul>
+
+
+	<h3>Tar file generation</h3>
+
+
+	<p>Projects containing more than one file should be packaged together as a tar file for submission.</p>
+
+
+	<p>Sample tar command:</p>
+
+
+	<p style="padding-left:2em;"><code>tar cf jvalland_project1.tar jvalland_project1</code></p>
+
+
+	<p>Explanation:</p>
+
+
+	<p>This would be called from the parent directory of the project.  So if the project was at <code>~/eecs268/project1/</code> you would execute this command from <code>~/eecs268/</code>.</p>
+
+
+	<p><strong>Note:</strong> Name the folder you are tarring uniquely, as well as the generated tar file itself.</p>
+
+
+	<p>Flags:</p>
+
+
+	<ul>
+	<li><code>c</code> is used to create a new tar file.</li>
+		<li><code>f</code> is for the file name of the tar file which should be immediately followed by the tar file name.</li>
+	</ul>
+
+
+Extracting a tar file:
+	<p style="padding-left:2em;"><code>tar xf project1.tar</code></p>
+
+
+	<p>Flag:</p>
+
+
+	<ul>
+	<li><code>x</code> is to extract the tar file.</li>
+	</ul>
+
+
+	<p><strong>Note:</strong> The submitted tar file for labs and projects should contain your <em>student id number</em> as well as an indication as to which project / lab is being submitted.</p>
+
+
+	<p>Example:</p>
+
+
+	<p style="padding-left:2em;"> <code>1234555_lab01.tar</code></p>
+
+
+	<h3>Other useful commands</h3>
+
+
+	<ul>
+	<li>mkdir : create a directory (folder)</li>
+		<li>cp <em>source</em> <em>dest</em> : copies a file</li>
+		<li>cd : changes current directory</li>
+		<li>man <em>program</em> : provide the online manual for that program</li>
+	</ul>
+
+
+	<h3>Other Information and Tips</h3>
+
+
+	<p><strong>All</strong> lab submissions must compile and run on linux lab machines.  Be careful using Windows-based text-editors as invisible characters can differ causing unusual and difficult to debug errors.</p>
+   </div>
+
+   <div class="column span-5 append-2 last">
+      <h4>Sidebar</h4>
+      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. </p>
+      
+
+      <div class="box">
+         <p class="last">Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
+      </div>
+
+      <p class="quiet">This is the quiet class -- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
+
+      <h5>Incremental leading</h5>
+      <p class="incr">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus.</p>
+   </div>
+
+   <div class="column span-20 prepend-2 append-2 first last" id="footer">
+     <hr />
+     <p>This website was created by Jim Vallandingham</p>
+   </div>
+
+</div>
+</body>
+</html>

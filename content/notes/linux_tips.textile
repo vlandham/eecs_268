@@ -1,0 +1,111 @@
+---
+title:  Linux Tips
+layout: default
+filter:
+  - erb
+  - textile
+---
+h1. Linux Tips
+
+h2. Navigation
+
+*Q:* How do I move back a directory?
+
+*A:* The characters "@..@" represent the parent directory.  So To move back one directory you would use:
+
+@cd ..@
+
+h2. Packaging Project Submissions
+
+Labs and project submissions are expected to come in a single @.tar@ or @.tar.gz@ file.  
+
+*Before* tarring your submission, make sure to remove all object files (@.o@), edit files(@~@), and executables from the project directory.  One way to do this is by creating a make rule that removes these files automatically.  
+
+h3. Sample make rule:
+
+p((. @clean:@
+
+p(((. @rm -f *.o *~ lab1@
+
+In this example, we assume "@lab1@" an executable. For your specific project, you would want to include the specific executables of your program.
+
+h2. Access
+
+*Q:* How can I access the eecs computers remotely?
+ 
+*A:* SSH and SFTP
+
+*Short Answer* log into wozniak.eecs.ku.edu or eno.eecs.ku.edu with your eecs username and password.
+
+*Longer Answer*
+SSH allows for remote access to a computer.  SSHing into the eecs machines will allow you to gain access to files stored in your home directory, as well as ensure that your program runs properly on these machines as mandated by the grading instructions.
+
+*Windows*: The simplest way to use ssh in Windows is via the program "putty":http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html . Download putty.exe, and run the application.
+
+*configuration*
+
+* "Host Name" : wozniak.eecs.ku.edu
+* "port" : 22
+
+Click on 'Open' and then log in with your eecs username and password. You should be in your home directory
+
+*Mac / Linux*
+Both have ssh by default.  Open a terminal window, which for Mac is located in Applications/Utilities.  Use a command similar to:
+
+@ssh username@wozniak.eecs.ku.edu@
+
+Where @username@ is your eecs account username.
+
+_In addition_, both Mac and Linux have the ability to mount a ssh drive as if it were a local drive.  Meaning, it looks like just another drive and you can edit your files directly on the eecs machines from your home.  
+
+*Linux:* In the Gnome Window's manager, under "Places", there is an option to 'Connect to Server'.  From this window, you can connect to a ssh server which will appear on your desktop.
+
+*Mac:*  The recent release of "MacFuse":http://code.google.com/p/macfuse/ from Google allows a similar way to mount ssh directories.  I recommend using "MacFusion":http://www.sccs.swarthmore.edu/users/08/mgorbach/MacFusionWeb/ as a front end to this service.
+
+Windows / Mac / Linux users can also use *sftp* to access and edit remote files and upload files to the eecs machines to be tested.
+
+h3. SFTP
+
+*Windows*: The program "FileZilla":http://sourceforge.net/project/showfiles.php?group_id=21558 can be used as an sftp client to connect to the eecs department computers.
+
+After downloading, open up the site manager ( File -> Site Manager).  Click on the New Site button to create a new connection profile.  Here are the configurations you will want to input:
+
+* *Host:* wozniak.eecs.ku.edu (or eno.eecs.ku.edu)
+* *Servertype:* SFTP using SSH2
+* *Logontype:* Normal
+* *User:* Use your eecs username and password to connect.
+
+In the FileZilla settings under _File Viewing / editing_ you can tell FileZilla which application you would like to be the default editor (see text editors section).  So with this set, you can edit files on the eecs servers with a text editor on your local machine.
+
+*Mac*:  There are two freeware sftp clients: "Fugu":http://www.macupdate.com/info.php/id/8761 and "CyberDuck":http://www.macupdate.com/info.php/id/8392/cyberduck
+
+Setup will be similar to that listed in the windows section.  I would recommend using the MacFuse setup detailed on the MachFusion site over a sftp setup.
+
+h2. Text Editors
+
+There are a multitude of free text editors.  Here are some:
+
+*Windows*
+
+"Notepad++":http://notepad-plus.sourceforge.net/uk/site.htm  Features syntax highlighting, auto-completion, etc.  Very good with handling larger (10 Mb+) files.
+
+"Crimson Editor":http://www.crimsoneditor.com/  Features similar as Notepad++.  Has tree-view of files and folders.
+
+"Eclipse":http://www.eclipse.org/  Complete development platform.  Runs on Linux, Windows, Mac, etc.  Written in (requires) Java.  One of the best editors for Java.  Not recommended for C++.
+
+*Mac*
+
+"Textwrangler":http://www.macupdate.com/info.php/id/11009/textwrangler One of the best free editors for a Mac.  Handles large files well, syntax highlighting, etc.
+
+"TextMate":http://www.macromates.com/ *NOT* free but my favorite editor on any platform.  Directory view is a very powerful feature.  Also is easily extendable with snippets and shortcuts.  
+
+"Xcode":http://www.apple.com/macosx/features/xcode/ Similar capabilities and functionality as Eclipse.  A complete platform rather than just an editor.  Geared toward creating Cocoa applications, but can be used for C++.  Freely available on the installation disk or Apple's developers site. 
+
+
+h2. Linux Tools
+
+* cat : can be used to view the contents of a text file
+* less : can also be used to look at a text file.  Useful for long files, as it only shows a portion of the file at a time.  Use arrow keys to move up and down in the file.
+* pwd : shows the full directory path of the current directory you are in.
+* which : gives the full path of commands if they can be found in the PATH.  Use it like @which ruby@ to show you where ruby is on the machine.  Useful for quickly finding out if a command is availible to you without trying to run it. 
+

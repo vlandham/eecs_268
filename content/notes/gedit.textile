@@ -1,0 +1,89 @@
+---
+title:  Using Gedit
+layout: default
+filter:
+  - erb
+  - textile
+---
+h1. Gedit help
+
+h2. Configuration
+
+If you open up the Preferences menu ("Edit" -> "Preferences"), you can turn on a number of enhancements.
+
+I would suggest the following options turned on:
+
+h3. View Tab
+
+*Text Wrapping*
+
++ Enable text wrapping
+
++ Do not split words over two lines
+
+*Line Numbers*
+
++ Display line numbers
+
+*Current Line*
+
++ Highlight current line
+
+*Bracket Matching*
+
++ Highlight matching bracket
+
+h3. Editor Tab
+
+*Tab width*
+
++ 3 or 4
+
+*Automatic Indentation*
+
++ Enable automatic indentation
+
+h2. Plugins
+
+You can also install a number of gedit plugins to enhance its functionality.  Click on the *Plugins Tab* and Place a check-mark next to the following:
+
+*External Tools*
+
+*Indent Lines*
+
+*Snippets*
+
+h3. Snippets
+
+The most immediately useful plugin is snippets.  This allows you to create templates of code you type often. Examples include for loops and include statements.
+
+"Download Here":http://people.eecs.ku.edu/~jvalland/files/other/c++.xml Some C++ snippets.  (It is an .xml file so you will have to *right-click* and then *save link as*)
+
+Now we need to move this file to the right location.
+
+Open a terminal and execute the following command : 
+
+@cd ./.gnome2/gedit/@
+
+This will move you to the gedit directory.  Now check to see if there is a folder called snippets already there:
+
+@ls@
+
+If you see "snippets", thats fine skip this next step.  If not, create it:
+
+@mkdir ./snippets@
+
+Now we need to copy our c++.xml file to this location.  Because it is in a hidden folder (.gnome2) we will do it from the command line to make it easier.
+
+If your c++.xml file is on your Desktop (in your desktop directory) execute the following:
+
+@mv ~/Desktop/c++.xml ~/.gnome2/gedit/snippets/@
+
+If your c++.xml file is in your home directory, you could do this:
+
+@mv ~/c++.xml ~/.gnome2/gedit/snippets/@
+
+Now close gedit if it is currently running and open it back up.
+
+Under the "Tools" drop down menu, you should see an option to "Manage Snippets...".  Click on this and open the C++ section to see your snippets.
+

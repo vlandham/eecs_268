@@ -1,0 +1,159 @@
+---
+title:  Introduction
+layout: default
+number: 01
+filter:
+  - erb
+  - textile
+
+---
+
+h1. Introduction
+
+h2. General Information
+
+h3. Login in to Linux machines
+
+If there is a problem, go to desk in 1005 for assistance
+	
+h3. Communication Protocol
+
+"EECS 268 website":http://people.eecs.ku.edu/~jvalland will be updated with assignments / reference material / announcements.
+
+Email for important information will be sent to *class-registered* email address
+	
+h2. Linux Tools
+
+h3. Text-editors
+
+* gedit -- "Text Editor" on Lab Machines
+* emacs
+* vim
+	
+h3. g++ 
+
+GNU project c++ compiler.
+
+Used to compile programs into object files & link object files together for an executable.
+(object file is a processed version of source code file.  Has to contain Machine code, might contain other info i.e. for debuggers.)
+	
+h4. g++ Examples:
+
+Compile to object file:
+
+p((. @g++ -c HelloWorld.cpp		>> 		HelloWorld.o@
+		
+Link object files together:
+
+p((. @g++ HelloWorld.o MyClass.o -o executable		>> 		executable@
+	
+h3. Make
+
+Tool for automatically building large (or small) applications.
+
+Usually used with C or C++ programs, but could be used for any language
+
+h4. Basic Makefile:
+
+Assume we have 3 files: @MyClass.h@, @MyClass.cpp@, and @HelloWorld.cpp@.
+Assume @HelloWorld.cpp@ depends on @MyClass.h@ 
+We would like to create an application with the name "@lab1@".
+
+makefile:
+
+@lab1:HelloWorld.o MyClass.o@
+p((. @g++ HelloWorld.o MyClass.o -o lab1@
+
+@HelloWorld.o:HelloWorld.cpp MyClass.h@
+p((. @g++ -c HelloWorld.cpp@
+
+@MyClass.o:MyClass.h MyClass.cpp@
+p((. @g++ -c MyClass.cpp@
+			
+@clean:@
+p((. @rm -f *.o *~ lab1@
+		
+"sample makefile":http://people.eecs.ku.edu/~jvalland/268/files/intro/makefile
+
+h4. Makefile explanation 
+
+Each pair in the makefile is considered a *Make Rule*.  Make rules are composed in the following manner:
+	
+@target:prerequisites@
+
+_tab_   @commands@
+
+Make starts at the first target and looks to see if its prerequisites have any commands associated with them.  Make continues down the chain until it reaches a target with no prerequisites or one whose prerequisites have no associated rules.  Also through this process, it checks to see if each target is up-to-date, that is, if their have been modifications to the files associated with a particular target.
+
+In the example above, make would start with the @lab1@ target and then move to the @HelloWorld.o@ and @MyClass.o@ targets.  Both of these targets have prerequisites with no rules associated with them.  Running @make@ or @make lab1@ would first cause the @HelloWorld.o@ and @MyClass.o@ object files to be generated from the commands associated with these targets.  Then the @lab1@ executable would be compiled from those object files using the @g++ HelloWorld.o MyClass.o -o lab1@ command.
+
+@clean@ is a target in this make file with no prerequisites.  Running @make clean@ would remove all files ending with ".o" and "~" as well as the @lab1@ executable.
+
+*Note:* The command line for each make rule needs to start with a _tab_ character.
+	
+h3. Debugging
+
+Symbolic debuggers allow for the examination of the internal workings of a program during its execution.  From the gdb man page: "The purpose of a debugger is to allow you to see what is going on 'inside' another program while it executes."  gdb is the GNU debugger, a command-line debugging utility that provides all the common functionality of a debugger. Debuggers allow you to look at the internals of a program in many ways including:
+
+* Setting up break-points to halt the execution of a program at a certain point, or under certain conditions.
+* Stepping through the execution of a program line by line
+* Observing changes in variables used in the program over time.
+
+ddd or Data Display Debugger is a front-end to gdb which provides a graphical user interface for debugging with gdb.
+
+*Note:* In order to use gdb (and therefore ddd), all components of a program must be compiled using the "@-g@" flag.
+
+"Sample Program to Debug":http://people.eecs.ku.edu/~jvalland/268/files/lab01/sample_lab_with_debugging.tar
+
+h4. Common Commands in ddd
+
+* The *Step* command advances execution by one line and will step into calls. This means that if the line executed is a function, you'll be placed into the function and be allowed to step through it or do whatever else you want.
+* The *Next* command also executes one line but steps over calls. That is, it does not leave the current function to enter into another one.
+* The *Cont* command will continue execution until the next breakpoint is reached or the program otherwise ends or is interrupted.
+* The *Up* command on the Command Tool allows you to look at the function that called the current function. You will be moved there in the Source Window and the arrow will point at the line the function is called from.
+* The *Down* command will return you to the function that the current one called.
+
+h3. Tar file generation
+
+Projects containing more than one file should be packaged together as a tar file for submission.  
+
+Sample tar command:
+
+p((. @tar cf jvalland_project1.tar jvalland_project1@
+
+Explanation:
+
+This would be called from the parent directory of the project.  So if the project was at @~/eecs268/project1/@ you would execute this command from @~/eecs268/@.
+
+*Note:* Name the folder you are tarring uniquely, as well as the generated tar file itself.
+
+Flags:
+
+* @c@ is used to create a new tar file.
+* @f@ is for the file name of the tar file which should be immediately followed by the tar file name.
+
+Extracting a tar file:
+p((. @tar xf project1.tar@
+
+Flag:
+
+* @x@ is to extract the tar file.
+
+*Note:* The submitted tar file for labs and projects should contain your _student id number_ as well as an indication as to which project / lab is being submitted.
+
+Example:
+
+p((.  @1234555_lab01.tar@ 
+
+h3. Other useful commands
+
+* mkdir : create a directory (folder)
+* cp _source_ _dest_ : copies a file
+* cd : changes current directory
+* man _program_ : provide the online manual for that program
+
+h3. Other Information and Tips
+
+*All* lab submissions must compile and run on linux lab machines.  Be careful using Windows-based text-editors as invisible characters can differ causing unusual and difficult to debug errors. 
+
+ 

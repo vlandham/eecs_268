@@ -1,0 +1,32 @@
+---
+title:  Home Page
+filter:
+  - erb
+  - textile
+---
+h2. Labs
+
+<% labs = @pages.find(:all, :in_directory => "labs" ) %>
+
+<% labs.each do |lab| %>
+h3. <%= link_to lab.title, lab  %>
+<% end %>
+
+h2. Helpful Notes
+
+<% notes = @pages.find(:all, :in_directory => "notes") %>
+<% notes.each do |note| %>
+h3. <%= link_to note.title, note %>
+<% end %>
+
+<% coderay :lang => 'ruby', :line_numbers => 'inline' do -%>
+class Object
+  def returning( r )
+    yield r if block_given?
+    r
+  end
+end
+<% end -%>
+
+
+bq. Nullam mattis, odio ut tempus facilisis, metus nisl facilisis metus, auctor consectetuer felis ligula nec mauris. Vestibulum odio erat, fermentum at, commodo vitae, ultrices et, urna. Mauris vulputate, mi pulvinar sagittis condimentum, sem nulla aliquam velit, sed imperdiet mi purus eu magna. Nulla varius metus ut eros. Aenean aliquet magna eget orci. Class aptent taciti sociosqu ad litora.

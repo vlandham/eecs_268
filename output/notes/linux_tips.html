@@ -1,0 +1,208 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "DTD/xhtml1-strict.dtd">
+
+<html xml:lang="en" lang="en-us" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+   <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+   <title>Linux Tips</title>
+   <meta name="author" content="" />
+
+   <!--- Blueprint CSS Framework -->
+   <link href="/~jvalland/css/blueprint/screen.css" rel="stylesheet" type="text/css" media="screen, projection" />
+   <link href="/~jvalland/css/blueprint/print.css" rel="stylesheet" type="text/css" media="print" />
+
+   <!-- CodeRay syntax highlighting CSS -->
+   <link href="/~jvalland/css/coderay.css" rel="stylesheet" type="text/css" />
+
+   <!-- Homepage CSS -->
+   <link href="/~jvalland/css/site.css" rel="stylesheet" type="text/css" media="screen, projection" />
+</head>
+<body>
+
+<div class="container">
+
+   <div class="column span-20 prepend-2 append-2 first last" id="header">
+     <p class="title">EECS 268 - Lab</p>
+     <p class="subtitle">Fall 2008</p>
+     <hr />
+   </div>
+  
+   <div class="column span-15 prepend-2 first">
+      <h1>Linux Tips</h1>
+
+
+	<h2>Navigation</h2>
+
+
+	<p><strong>Q:</strong> How do I move back a directory?</p>
+
+
+	<p><strong>A:</strong> The characters &#8220;<code>..</code>&#8221; represent the parent directory.  So To move back one directory you would use:</p>
+
+
+	<p><code>cd ..</code></p>
+
+
+	<h2>Packaging Project Submissions</h2>
+
+
+	<p>Labs and project submissions are expected to come in a single <code>.tar</code> or <code>.tar.gz</code> file.</p>
+
+
+	<p><strong>Before</strong> tarring your submission, make sure to remove all object files (<code>.o</code>), edit files(<code>~</code>), and executables from the project directory.  One way to do this is by creating a make rule that removes these files automatically.</p>
+
+
+	<h3>Sample make rule:</h3>
+
+
+	<p style="padding-left:2em;"><code>clean:</code></p>
+
+
+	<p style="padding-left:3em;"><code>rm -f *.o *~ lab1</code></p>
+
+
+	<p>In this example, we assume &#8220;<code>lab1</code>&#8221; an executable. For your specific project, you would want to include the specific executables of your program.</p>
+
+
+	<h2>Access</h2>
+
+
+	<p><strong>Q:</strong> How can I access the eecs computers remotely?</p>
+
+
+	<p><strong>A:</strong> SSH and SFTP</p>
+
+
+	<p><strong>Short Answer</strong> log into wozniak.eecs.ku.edu or eno.eecs.ku.edu with your eecs username and password.</p>
+
+
+	<p><strong>Longer Answer</strong>
+SSH allows for remote access to a computer.  SSHing into the eecs machines will allow you to gain access to files stored in your home directory, as well as ensure that your program runs properly on these machines as mandated by the grading instructions.</p>
+
+
+	<p><strong>Windows</strong>: The simplest way to use ssh in Windows is via the program <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/download.html">putty</a> . Download putty.exe, and run the application.</p>
+
+
+	<p><strong>configuration</strong></p>
+
+
+	<ul>
+	<li>&#8220;Host Name&#8221; : wozniak.eecs.ku.edu</li>
+		<li>&#8220;port&#8221; : 22</li>
+	</ul>
+
+
+	<p>Click on &#8216;Open&#8217; and then log in with your eecs username and password. You should be in your home directory</p>
+
+
+	<p><strong>Mac / Linux</strong>
+Both have ssh by default.  Open a terminal window, which for Mac is located in Applications/Utilities.  Use a command similar to:</p>
+
+
+	<p><code>ssh username@wozniak.eecs.ku.edu</code></p>
+
+
+	<p>Where <code>username</code> is your eecs account username.</p>
+
+
+	<p><em>In addition</em>, both Mac and Linux have the ability to mount a ssh drive as if it were a local drive.  Meaning, it looks like just another drive and you can edit your files directly on the eecs machines from your home.</p>
+
+
+	<p><strong>Linux:</strong> In the Gnome Window&#8217;s manager, under &#8220;Places&#8221;, there is an option to &#8216;Connect to Server&#8217;.  From this window, you can connect to a ssh server which will appear on your desktop.</p>
+
+
+	<p><strong>Mac:</strong>  The recent release of <a href="http://code.google.com/p/macfuse/">MacFuse</a> from Google allows a similar way to mount ssh directories.  I recommend using <a href="http://www.sccs.swarthmore.edu/users/08/mgorbach/MacFusionWeb/">MacFusion</a> as a front end to this service.</p>
+
+
+	<p>Windows / Mac / Linux users can also use <strong>sftp</strong> to access and edit remote files and upload files to the eecs machines to be tested.</p>
+
+
+	<h3>SFTP</h3>
+
+
+	<p><strong>Windows</strong>: The program <a href="http://sourceforge.net/project/showfiles.php?group_id=21558">FileZilla</a> can be used as an sftp client to connect to the eecs department computers.</p>
+
+
+	<p>After downloading, open up the site manager ( File -&gt; Site Manager).  Click on the New Site button to create a new connection profile.  Here are the configurations you will want to input:</p>
+
+
+	<ul>
+	<li><strong>Host:</strong> wozniak.eecs.ku.edu (or eno.eecs.ku.edu)</li>
+		<li><strong>Servertype:</strong> SFTP using SSH2</li>
+		<li><strong>Logontype:</strong> Normal</li>
+		<li><strong>User:</strong> Use your eecs username and password to connect.</li>
+	</ul>
+
+
+	<p>In the FileZilla settings under <em>File Viewing / editing</em> you can tell FileZilla which application you would like to be the default editor (see text editors section).  So with this set, you can edit files on the eecs servers with a text editor on your local machine.</p>
+
+
+	<p><strong>Mac</strong>:  There are two freeware sftp clients: <a href="http://www.macupdate.com/info.php/id/8761">Fugu</a> and <a href="http://www.macupdate.com/info.php/id/8392/cyberduck">CyberDuck</a></p>
+
+
+	<p>Setup will be similar to that listed in the windows section.  I would recommend using the MacFuse setup detailed on the MachFusion site over a sftp setup.</p>
+
+
+	<h2>Text Editors</h2>
+
+
+	<p>There are a multitude of free text editors.  Here are some:</p>
+
+
+	<p><strong>Windows</strong></p>
+
+
+	<p><a href="http://notepad-plus.sourceforge.net/uk/site.htm">Notepad+<ins></ins></a>  Features syntax highlighting, auto-completion, etc.  Very good with handling larger (10 Mb) files.</p>
+
+
+	<p><a href="http://www.crimsoneditor.com/">Crimson Editor</a>  Features similar as Notepad++.  Has tree-view of files and folders.</p>
+
+
+	<p><a href="http://www.eclipse.org/">Eclipse</a>  Complete development platform.  Runs on Linux, Windows, Mac, etc.  Written in (requires) Java.  One of the best editors for Java.  Not recommended for C++.</p>
+
+
+	<p><strong>Mac</strong></p>
+
+
+	<p><a href="http://www.macupdate.com/info.php/id/11009/textwrangler">Textwrangler</a> One of the best free editors for a Mac.  Handles large files well, syntax highlighting, etc.</p>
+
+
+	<p><a href="http://www.macromates.com/">TextMate</a> <strong>NOT</strong> free but my favorite editor on any platform.  Directory view is a very powerful feature.  Also is easily extendable with snippets and shortcuts.</p>
+
+
+	<p><a href="http://www.apple.com/macosx/features/xcode/">Xcode</a> Similar capabilities and functionality as Eclipse.  A complete platform rather than just an editor.  Geared toward creating Cocoa applications, but can be used for C++.  Freely available on the installation disk or Apple&#8217;s developers site.</p>
+
+
+	<h2>Linux Tools</h2>
+
+
+	<ul>
+	<li>cat : can be used to view the contents of a text file</li>
+		<li>less : can also be used to look at a text file.  Useful for long files, as it only shows a portion of the file at a time.  Use arrow keys to move up and down in the file.</li>
+		<li>pwd : shows the full directory path of the current directory you are in.</li>
+		<li>which : gives the full path of commands if they can be found in the PATH.  Use it like <code>which ruby</code> to show you where ruby is on the machine.  Useful for quickly finding out if a command is availible to you without trying to run it.</li>
+	</ul>
+   </div>
+
+   <div class="column span-5 append-2 last">
+      <h4>Sidebar</h4>
+      <p>Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. </p>
+      
+
+      <div class="box">
+         <p class="last">Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
+      </div>
+
+      <p class="quiet">This is the quiet class -- Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue.</p>
+
+      <h5>Incremental leading</h5>
+      <p class="incr">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras ornare mattis nunc. Mauris venenatis, pede sed aliquet vehicula, lectus tellus pulvinar neque, non cursus sem nisi vel augue. sed aliquet vehicula, lectus tellus.</p>
+   </div>
+
+   <div class="column span-20 prepend-2 append-2 first last" id="footer">
+     <hr />
+     <p>This website was created by Jim Vallandingham</p>
+   </div>
+
+</div>
+</body>
+</html>
