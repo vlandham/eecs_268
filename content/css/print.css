@@ -1,0 +1,15 @@
+---
+extension: css
+filter:    erb
+layout:    nil   # no layout
+
+color:
+  border:      "#ddd"
+---
+.side {
+  display: none
+}
+
+a:link, a:visited {
+  color: #888;
+}

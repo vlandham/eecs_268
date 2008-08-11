@@ -1,0 +1,230 @@
+---
+title:  Lab 02
+layout: default
+
+filter:
+  - erb
+  - textile
+  
+order: 02
+---
+
+h1. Lab 02
+
+h2. Classes
+
+Each class you create will consist of two files: a *header* file (_.h_) and *implementation* file (_.cpp_). 
+
+h3. Header Files:
+
+h4. Layout:
+
+@#ifndef _UNIQUENAME_@
+
+@#define _UNIQUENAME_@
+
+_include statements_
+
+@class@ _ClassName_
+
+@{@
+	
+@public:@
+
+p((. _public methods;_
+
+@private:@
+
+p((. _private methods and data;_
+
+@};@
+
+@#endif@
+
+h4. Description:
+
+The header file contains the definition of the class.  That is declarations of its functions as well as data it stores.  
+
+*#ifndef / #define / #endif*
+
+These are compiler pre-processors to prevent the header file from being included more than once in the linked program.  This is done because C++ cannot handle header files being included more than once.  
+
+Essentially, it checks to see if the pre-processor macro named @_UNIQUENAME_@ has already been defined, i.e. the header file has already been included.  If not, then it defines it and brings in the rest of the code until the @#endif@ statement.  If it has already been defined, then that indicates that this header file has already been included, and thus, the compiler skips down to the @#endif@ statement without including it again.
+
+Make sure the two @_UNIQUENAME_@ statements are the same.
+
+*_include statements_*
+
+Here you will include the other libraries / header files needed in the class.  Do *not* put 'using' statements, such as @using namespace std;@ into a header file, if at all possible.  So in a header file, if you are using a string type variable, you will want to declare it as std::string.  This applies to all functions and objects in the C++ standard library, including cout, cin, and the various streams. "More information":http://www.cplusplus.com/reference/ on the std library  
+
+*default constructor*
+
+This is a constructor with no arguments or one that gives all the arguments default values.  These default values should be defined in the header file and not in the implementation file.  Usually, this constructor is used to initialize private variables to standard values.
+
+*Note*
+
+Don't forget to place a semicolon (@;@) after the closing bracket of the class definition! 
+
+Also, using const at the end of a function declaration indicates that the function cannot alter the classes data members.  
+
+
+h3. Implementation Files:
+
+h4. Layout:
+
+@#include@ "_HeaderFileName.h_"
+
+@using statements@
+
+_returnType_ _ClassName_::_function_
+
+@{@
+	
+p((. _method implementation_
+
+@}@
+
+*example:*
+
+@#include "Matrix.h"@
+
+@using namespace std;@
+
+@double Matrix::determinant( ) const@
+
+@{}@
+
+h4. Description:
+
+The format is fairly straightforward, as long as you remember to include the "@Matrix::@" part. 
+
+Inside a function definition, you can access the functions directly without the use of any prefix. So for example, inside the inverse function, the determinant function of the Matrix class could be called using @determinant()@ instead of @Matrix::determinant();@.
+
+h2. Exceptions
+
+You will need to deal with three things to utilize exceptions in your code:
+
+1. Define your own exception class (which can be a sub-class of one of the existing exception classes as explained below).
+
+2. Throw your exception in your code when the error conditions have been met.
+
+3. Catch your thrown exception and deal with in in a try / catch statement. 
+
+More information for each of these steps is given here.
+
+You will want to create one or more files to define your exceptions.  The easiest way to create a new exception class in C++ is by defining a sub-class of the existing exceptions in the @stdexcept@ / @exception@ library. 
+
+h3. Example Exception:
+
+@#include<stdexcept>@
+	
+@#include <string>@
+	
+@using namespace std;@
+
+@class NewException: public out_of_range@
+
+@{@
+
+@public:@
+
+p((. @NewException(const string & message ="")@
+
+p(((. @: out_of_range(message.c_str())@
+
+p((. @{} //Don't Forget these brackets!@
+
+@}@
+
+h3. Description
+
+This defines a @NewException@ class which is a sub-class of @out_of_range@.  In this class we have a default constructor which assigns the string parameter to the @message@ private variable of the @out_of_range@ class. (the function c_str() converts the string to a c-style string i.e. a character array.)  The new constructor is needed because sub-classes do not inherit the constructor and destructor of the parent class.  
+
+The public keyword in the class definition indicates that functions that were previously public in the parent class should remain public in the child class.  Because of this we can call the what() function as we will see below.
+
+h3. Exception use
+
+To make use of an exception such as the example above, one could create a header file called "Exceptions.h" and place this class definition inside this file. Make sure to use the @#ifndef@ set-up in this header file to avoid multiple inclusions of this exception header.
+
+Then if were used by a particular class, @Exceptions.h@ would first be included in that classes header file.
+
+Then the function definition of the function that threw this exception would be modified to include this information.  Here is an example:
+
+p((. @Matrix Matrix::inverse( ) const throw(NewException);@
+
+Inside this function, the exception would be thrown like this:
+
+p((. @throw NewException("error: message");@
+
+This thrown exception would need to be caught somewhere.  Usually this occurs in the method that has called the function.  For lab 2, these exceptions will be caught in the main method of the program. 
+
+_Example catching of an exception:_
+
+@try {@
+	
+p((.	@m.inverse()@
+
+@catch(NewException e)@
+
+@{@
+
+p((.	@cout << e.what() << endl;@
+
+@}@
+
+e is the @NewException@ object created by the throw.  It contains the error message string.
+
+The @what()@ method is part of the parent class @out_of_range@ and returns the value of the @message@ variable which we assign to be the error message for the exception in the exception header file. 
+
+h3. Standard Exception classes
+
+Here are the classes in the @stdexcept@.  These are in the namespace @std@. Indention indicates sub-classing.
+
+@logic_error@
+
+p((. @domain_error@
+
+p((. @invalid_argument@
+
+p((. @length_error@
+
+p((. @out_of_range@
+
+@runtime_error@
+
+p((. @range_error@
+
+p((. @overflow_error@
+
+p((. @underflow_error@
+
+You could sub-class any of these exception class.
+
+Also, all of these classes are sub-classes of the @exception@ class, which you could sub-class directly.
+
+"More information on these exceptions":http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/header_stdexcept.htm
+
+h2. Operator Overloading
+
+"Giving an operator more than one meaning"
+
+Using the '+' symbol to add an object to the end of an array, instead of the default arithmetic.  
+
+Gives you the ability to redefine commonly used symbols to function how you want them to for your classes and allow for more intuitive code.
+
+h3. Syntax
+
+create a function with the format:
+
+_returnType_ @operator@ _symbol_ _arguments_ 
+
+*Example*
+
+@Matrix operator*(const Matrix& rhs) const;@
+
+This redefines the '*' operator so that you are able to use it to multiply matrices using:
+
+@result_matrix = matrix1 * matrix2@
+
+Also good for redefining '==', '>=', etc.  With these you could base equality on an internal (private) variable and then return a boolean value based on this comparison. 
+ 

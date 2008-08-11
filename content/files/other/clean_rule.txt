@@ -1,0 +1,5 @@
+clean:
+	rm -f *.o *~ core.* 
+	rm -rf ./html
+	rm -rf ./latex
+	rm -f executable

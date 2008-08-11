@@ -1,0 +1,29 @@
+#include <ctime>
+#include <sys/time.h>
+
+// Used to get the time of day for timing comparisons.
+unsigned long getTime()
+{
+	timeval tv;
+	gettimeofday (&tv, NULL);
+	return tv.tv_sec * 1000000ul + tv.tv_usec;
+}
+
+
+// main function...
+int main(int argc, char *argv[])
+{
+	unsigned long startTime = 0;
+	unsigned long endTime = 0;
+	
+	startTime = getTime();
+	
+	// sort
+	
+	endTime = getTime();
+	
+	unsigned long totalTime2 = endTime - startTime;
+	cout << "Time: " << totalTime2 << "ms" << endl;
+
+}
+

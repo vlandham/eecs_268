@@ -1,0 +1,61 @@
+---
+title:  Comment Requirements
+layout: default
+filter:
+  - erb
+  - textile
+---
+h1. Comments
+
+h2. Doxygen
+
+p((. *Read Appendix F*
+
+h3. Required comments
+
+From the class text book, pages 44 - 45
+
+Commenting required in each source code file:
+
+1. Initial comment at the *top of each file* 
+
+* File name (@file)
+* Statement of purpose
+* Author (@author)
+* Date (@date)
+* File version number (@version) -- optional
+
+2. Comment for each *class* 
+
+* Name of class and its header file (@class) -- optional
+* Statement of purpose
+
+3. Comment for each *method or function*
+
+* Statement of purpose
+* Description of each argument in the argument list (@param)
+* Preconditions (@pre)
+* Postconditions (@post)
+* Exceptions thrown (@throw)
+* Return value (@return)
+
+4. Comments in the body of each function elaborating on important / difficult logic
+
+h3. Running doxygen
+
+See "doxygen example":http://people.eecs.ku.edu/~jvalland/268/files/lab01/someClass.h
+
+Create a new folder to hold this file, such as "doxygen_example".  Download this file ( right-click and then "Save As") to the new folder.  Open a Terminal window and navigate to this folder.  Run the following commands:
+
+p((. @doxygen -g@
+
+This will create a doxygen configuration file, called "Doxyfile".  Open this in a text editor and search for the line "GENERATE_LATEX".  When you find this configuration option, switch the default to "NO".  This will prevent the latex files from being generated.
+
+p((. @doxygen Doxyfile@
+
+This will create a new folder in your current directory with the name "html". Inside will be a series of html pages, as well as css files and images.  
+
+Open the file "classSome.html" in Firefox to see the documentation generated.
+
+In a real project, make sure to remove this folder *before* submitting the lab. 
+

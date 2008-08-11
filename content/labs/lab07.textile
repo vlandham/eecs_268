@@ -1,0 +1,196 @@
+---
+title:  Lab 07
+layout: default
+
+filter:
+  - erb
+  - textile
+
+order: 07
+---
+
+h1.	Lab 07 
+
+h2.	Templates
+
+Templates are a way of generalizing code in C++.  They allow code to be written without consideration of the data type with which it will eventually be used.  This is particularly useful in storage structures, such as lists, stacks, queues, etc.  So instead of having a whole stack implementation for holding integers, and then another implementation for holding strings, you can create one stack implementation that can be instantiated multiple times to hold different data structures.  The compiler decides at compile time from your code what variable type the templated class is working with and instantiates it as such.
+
+h3. Steps to converting a class to a class template
+
+h4.	1. Template declaration
+
+The class needs to be explicitly declared a class template.  So right above your class declaration add the line:
+
+p((. %template &lt; class T &gt;% 
+
+This indicates that the following class will be a class template.  The 'class' in this declaration is associated with the T and not specifically the class template.  The T is the type parameter, which will represent the variable type eventually used when the class template is instantiated. 
+
+*Note:* You could really name this type parameter, T, anything you want.  It could be called 'TemplateClass' or 'TC', or whatever.  Just usually you will see it named 'T', so that is what we will use. 
+
+h4.	2. Replace old type with type parameter
+
+Go through your header file and every time you see the old variable type that is being generalized to the type parameter, replace it with T.
+
+For our use, the old variable type is typedefed to be 'StackItemType'.  So every time you see StackItemType, replace it with 'T'.  Then you can remove the typedef line.  
+
+h4.	3. Convert class instance declarations to class template instance declarations
+
+Sorry for the confusing title, really this is easy.  Your new templated class will be called and created in a slightly different manner from how the original class was created.  It will include a definition of what T should be (we will see this later).
+
+But for now, all we need to do is add a &lt;T&gt; to places where the class is dealing with itself.  In our case, this is in the *copy constructor*.
+
+p((. %Stack(const Stack&amp; aStack);%
+
+becomes
+
+p((. %Stack(const Stack&lt;T&gt;&amp; aStack);%
+
+Do this in your .cpp file as well.
+
+h4.	4. Convert methods to template methods
+
+Go into your implementation file.  Now each method definition should contain the full prefix for the class template.  This includes the template declaration as well as the type parameter that will become part of the class declaration.  
+
+Also, as before in the declarations, modify the old type to the new type parameter - T
+
+So, for example, the push method previously looked like:
+
+p((. %void Stack::push(const StackItemType&amp; newItem) throw(StackException)%
+
+Now as a method template it will look like:
+
+p((. %template &lt;class T&gt;%
+
+p((. %void Stack&lt;T&gt;::(const T&amp; newItem) throw(StackException)%
+
+Repeat for all methods.
+
+h4.	5. Replace old type with type parameter in declarations
+
+If there is a place in your .cpp file where you create a temporary variable or a new instance of the old variable type that the class once dealt with, replace it as you did in the header file with T
+
+h4.	6. Switch around includes
+
+Templates are supposed to be declared and defined in a single header file.  We already have them in two files, so we can switch around the include statements so that the compiler thinks its all in one file.
+
+Remove the #include statement in the .cpp file that includes the header file for this class
+
+Add to the bottom of the header file an #include statement that includes the .cpp file there.
+
+When the compiler compiles this header file, it will see the include statement at the bottom of this file and immediately include the .cpp file into what is seemingly the 'same file'.  
+
+If you have the 'ifndef /define' compiler instructions, put the .cpp include statement before the #endif
+
+h4.	7. Makefile
+
+You don't have to create an object file from this class, as we are pretending that the .h and .cpp are all in one file.  
+
+h4. 8. Using your new template class
+
+To instantiate your template class to an actual object that holds a particular type you would create it like:
+
+p((. %Stack&lt;int&gt; newStack;%
+
+Where, the int here can be replaced with the type of variables you want this stack to hold.
+
+h2. Function Pointers
+
+"Great Introduction":http://www.newty.de/fpt/index.html -- *Please read this*
+
+Function pointers, as their name suggests are pointers that point to functions.  This works because functions / methods are just part of the memory used for the program and so have addresses just like anything else in the program.
+
+Example of a function pointer:
+
+if we had a function that looked like:
+
+p((. %int aFunction  (float a, char b, char c)%
+
+p((. %{ ... }%
+
+Then we could create a function pointer like:
+
+p((. %int (*pt2Function)(float, char, char) = NULL;%
+
+and assign it to the aFunction class like:
+
+p((. %pt2Function = &DoMore;%
+
+h3.	 Callbacks
+
+In this lab, a function pointer is used to provide a callback for the binary tree.  A call back allows you to define functionality in a higher level structure, and pass it to a lower level one. 
+
+Here the Example code provided by Miller shows how to use the call back to print the contents of the tree. 
+
+We will be implementing a callback function that solves the arithmetic equation held in the tree.
+
+It makes sense that the call back function should be a method of a class, however this requires a hack.  Non-static member functions of a class need the 'this' pointer of the class they are in, so this usually is passed in as a hidden input parameter.  We cannot do this, as the format of the callback function is fixed and does not include this parameter.  
+
+So we will make a static wrapper function that calls the callback, and a pointer to 'this' so that we can use it in the program.
+
+h4.	Pointer to 'this'
+
+We are going to create a static pointer to 'this' so that the static wrapper function can access the methods of the class we are in and call the real solve method.  
+
+Here are the steps I took to create this pointer.
+
+h5.	Create a static void pointer as a public attribute of your class
+
+Just create a member variable 
+
+p((. %static SolverClass* thisPointer%
+
+h5.	Outside of your class definition, set the pointer to NULL
+
+This is needed so the compiler knows about this static variable.  At the top of your .cpp file for this class, initialize your static variable to NULL. Do this outside of any method definition.
+
+p((. %using namespace std;%
+
+p((. %SolverClass *SolverClass::thisPointer = NULL%
+
+h5.	In the constructor of your class, assign this variable to 'this'
+
+p((. %thisPointer = this;%
+
+So now we can get access to our class we are in from a static method.
+
+The wrapper step will have more on how thisPointer is used.
+
+
+h4.	Wrapper function
+
+This is a static method that will be the actual callback function, but it will just call our non-static member function to do all the work.  
+
+_header file_
+
+p((. %static void Wrapper_To_Call_Solve(char&amp; val); //wrapper%
+
+p((. %void solve(char&amp; val); //actual method%
+
+Now our implementation of the wrapper method will use this thisPointer to call the real solve method.
+
+p((. %void SolverClass::Wrapper_To_Call_Solve(char&amp; val)%
+
+p((. %{%
+
+p(((. %thisPointer->solve(val); // calls the actual non-static solve with the input it got.%
+
+p((. %}%
+
+
+h2. Notes on input
+
+Using the &gt; &gt; method with strings seems to work well.  It will bring in the whole first line, which you can break up further using array [] notation.  And then each component of the symbol table will be brought in separately.  
+
+h2.	Options for symbol table
+
+Your symbol table will need to hold the character - double associations found after the equation of the input file.  You have a few options on the data structure you choose to hold this.
+
+It could be an *array of structs* where each struct has the char and the double values of one mapping.  To make life easier, you could assume that *no more than 20 symbols* would be in a single equation, and statically create this array. 
+
+A more flexible solution would be a *list of structs*, the structs being the same as before.  Here this would not have the same size limitation.
+
+You might also consider the STL map structure.  This maps a 'key' with a 'value'. The keys would be the symbols and the values would be the doubles.  
+
+"tutorial on map":http://www.cprogramming.com/tutorial/stl/stlmap.html
+
+"map methods":http://www.cplusplus.com/reference/stl/map/

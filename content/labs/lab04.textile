@@ -1,0 +1,77 @@
+---
+title:  Lab 04
+layout: default
+
+filter:
+  - erb
+  - textile
+
+order: 04
+---
+
+h1. lab 04
+
+h2. Rules of Sudoku
+
+The sudoku board has 9 rows and 9 columns.  The board is further broken down into 3x3 regions.  The goal of the game is to populate the board with numbers from 1 to 9 so that no duplicate numbers exist in any row, column or region.
+
+"More information on sudoku rules":http://www.sudoku.name/rules/en
+
+h2. Reading in Values
+
+We need to be able to read in values one at a time and determine if they need to be placed in the board and if so, where.  We cannot rely on carriage returns or spaces, as the lab states that they may or may not be present.  So, the input could look like the sample input given in the lab description, or it could be a single line of numbers and dashes, or something in between.
+
+Also, we may want to convert the numbers into integers for further manipulation (although this is not necessary).
+
+So, "here is a snippet of code that might help with reading in the values":http://people.eecs.ku.edu/~jvalland/268/files/lab04/input.txt  In this I am ultimately storing the values in a 2d array.
+
+
+
+the istringstream class creates a stream from a string.  Allowing us to treat it as a stream and read in different values from it.  "More information about string stream":http://www.cplusplus.com/reference/iostream/stringstream/
+
+You would need to include the sstream library and string library to use this method 
+
+"Here is a link":http://www.parashift.com/c++-faq-lite/misc-technical-issues.html#faq-39.2 to the C++ FAQ which indicates that string streams are the better way to convert strings to integers.  Also has a lot of other good information on C++
+
+h2. Static variables
+
+Static variables are ones that are shared by multiple instances of the class.  With normal class variables, each instance (object) of the class got its own set of variables.  There is one static variable that is accessed and modified by all instances of the class.
+
+"Tutorial on using static variables":http://www.cprogramming.com/tutorial/statickeyword.html
+
+h2. DDD
+
+ddd might be useful to debug your program and see how the system executes.
+
+Again, to use ddd, add the '-g' flag to the g++ statements of your makefile
+
+After compiling your lab you can open it in ddd with
+
+@ddd ./lab04@
+
+See the "Introduction Notes":http://people.eecs.ku.edu/~jvalland/268/intro.html for a overview of the basics of ddd.
+
+h3. Adding command line arguments in ddd
+
+For this project, and most projects in eecs 268, you need to read in an input file from the command line (via @argv[1]@). To add this line in ddd:
+
+Click on *Program* and then *Run...*
+
+Type in the filename in the *Run with Arguments* pane.
+
+Click "Run"
+
+h3. Viewing variables in ddd
+
+When you want to watch the value of a variable, this can be easily done inside ddd.
+
+If you just want to see the value of a variable once, you can hover over the name of that variable and it will appear (Remember, your program has to be 'running' inside ddd for anything to work)
+
+If you want to watch the value over an extended period of time you can:
+
+Right-click on the variable name
+
+Select *Display <variable name>*
+
+Another pane will appear above your source code with a box containing the value of the variable you are displaying.  This box can be moved around to allow multiple variables to be viewed.
+

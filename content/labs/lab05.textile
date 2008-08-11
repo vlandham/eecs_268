@@ -1,0 +1,108 @@
+---
+title:  Lab 05
+layout: default
+
+filter:
+  - erb
+  - textile
+  
+order: 05
+---
+
+h1.	Lab 05
+
+h2.	Overview
+
+This is a larger and significantly more complex, in terms of objects, lab then the previous ones (hence the 3 weeks to implement).  However, the implementation itself is fairly straightforward.  
+
+This is as much a project dealing with inheritance as it is with the queue and stack data structure.
+
+Probably want to be storing pointers in your List / Queue.
+
+h2. Inheritance Review
+
+You should implement the various customers as recommended in the lab hand-out.  This means the Customer class will be the super-class of both the RegularCustomer and VIP classes.
+
+
+h3. Static & Dynamic Casting 
+
+Can 'cast' a class from a parent to a super-class.  base class -> derived class is called *downcasting*.
+
+You can only use static casting, which uses the compiler to perform the conversion, on classes with no virtual methods. 
+
+Static casting example:
+
+@// acct is originally of type * BankAcct, which is the parent class of SavingsAcct@
+
+@SavingsAcct* d1 = static_cast<SavingsAcct*>(acct);@
+
+*Dynamic casting* performs the cast conversion during runtime. Only works with polymorphic classes (those with a virtual method). 
+
+Here is an example from my implementation of lab 05.  Background: I am trying to determine which data structure (stack or queue) to add the new Customer to.  Both data structures are typedef'ed to hold Customer *. 
+
+1. First you need to add a virtual method to your Customer class.  This can be accomplished by making your destructor virtual;
+
+@	virtual ~Customer(){};@
+
+2. Now you can use dynamic casting.  If the cast is unsuccessful, it returns a null pointer.  In this example, patron is of type Customer *.
+
+@VIP * vip = dynamic_cast<VIP*>(patron);@
+
+@if(vip) //then I know that the dynamic cast was successful, so the original type was a VIP class.@
+
+@else // then the dynamic cast was unsuccessful, and so it was of type Customer or RegularCustomer@
+
+So now you can try to dynamically cast your object to a new class, and if it is successful, then you know what type it originally was, and so you can modify your behavior according to original class.
+
+h2. Useful String Methods
+
+h3. find
+
+In this lab, we are performing different functions based on a naming scheme we read in.  But the names we read in have extra characters on the end.  Example: VIP7 is a vip, but how do we extract the 'VIP' part of the name to know he's a VIP.
+
+One easy way to do this is to use the string 'find' method.
+
+Find Format:
+
+@size_type find( const string& str, size_type index );@
+
+where 'str' is what you are searching for, and 'index' is where you start. 
+
+This returns a number of type @string::size_type@ representing the location where this 'str' string starts. But if this search string is not found, then, the method returns a @string::npos@.  
+
+So we can use this find method to check for "VIP" or "Customer" in the name, and take the appropriate action.
+
+@string::size_type vip_location = patronName.find( "VIP", 0 );@ 
+
+@if(vip_location != string::npos)@
+
+h3. at & length
+
+We also need to check the VIP's number value to see if the next VIP should be added to the stack. We can use the at and length methods of string to get at the last value in the string:
+
+@char num = name.at(name.length()-1);@
+
+
+h2. Other
+
+Use @#ifndef@ ... for provided code, to make life easier.  
+
+Use -Wall in your compiler statements in your makefile to output all warnings
+
+h3. Command line argument checking
+
+You should add checking to ensure that the input file has been provided.
+
+@if(argc != 2) //ERROR@
+
+This error should be output to standard out and provide relevant information about how your program is supposed to be called.  for example, the error message could be:
+
+@Usage: lab05 ./name/of/input/file.txt@
+
+You should also be checking to ensure that the input file was successfully opened.  Output a relevant error message if this is not the case as well.
+
+h3. Tar folder naming
+
+Please rename the folder you tar to send to me to something unique and relevant before tarring it.  This is because the original name is maintained after untarring so I end up with a bunch of folders named 'lab 3' when I'm trying to grade.  Something like
+
+*jvalland_lab05*

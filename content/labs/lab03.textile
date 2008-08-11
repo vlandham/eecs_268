@@ -1,0 +1,120 @@
+---
+title:  Lab 03
+layout: default
+
+filter:
+  - erb
+  - textile
+
+order: 03
+---
+
+h1. Lab 03
+
+h2. Pointers
+
+Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
+
+h3. Syntax
+
+Here are the common usages of pointers.
+
+*Creation*
+
+@int *p@       _-- creates a pointer that can point to integers._
+
+@string *s@    _-- creates a pointer that can only point to string objects._
+
+*Assigning an Address*
+
+@int x = 7;@    _-- x is just a normal integer._
+
+@p = &x@        _-- indicates that the pointer p now contains the memory address of the variable x.  So @p@ points to @x@._
+
+*Assigning Values using Pointers*
+
+@*p = 2;@      _-- this changes the value stored in the address held by p. Meaning *p and x will change._
+
+*Using Multiple Pointers*
+
+@int *q;@		  _-- q is another integer pointer_
+
+@q = p;@      _-- q and p point to the same thing.  Meaning, p and q now contain the same memory address._
+
+"See my example":http://people.eecs.ku.edu/~jvalland/268/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
+
+h2.	Notes on insert method
+
+@ListNode *newPtr = new ListNode;@
+
+Here we are dynamically creating a new ListNode object that will hold the string newItem.  So newPtr is a ListNode pointer which points to (contains the address of) this new ListNode.
+
+@newPtr->item = newItem;@
+
+Here we assign the item variable held inside the ListNode object pointed to by newPtr.  This is special syntax needed when dealing with objects or structures referenced to by pointers instead of actual variables. 
+
+If this were a statically allocated ListNode, the equivalent call would be @l_node1.item = newItem;@, where @l_node1@ is an object of type ListNode.  However, since it is dynamically allocated, we can't use the _object . method_ syntax, and instead must use the _pointer -> method_ syntax.
+
+@newPtr->next = head;@
+
+@head = newPtr;@
+
+Here we are dealing with the 'head' pointer.  Remember, head is not an actual node, but just another node pointer, just like the 'next' pointer in each ListNode.
+
+@try {} catch (bad_alloc e) {}@
+
+Good example of multiple layers of exception handling.  The 'new' function could fail if we run out of memory (although very unlikely for this lab).  This shows the method 'insert' catching the possible exception that can occur (@bad_alloc@) and then throwing its own exception as a way of dealing with it (ListException).  This allows our main function to only deal with list exceptions.  It also abstracts the way we are holding the list from how it is accessed.  	
+
+h2. Detecting End of File
+
+Two ways I have found to work for this project.
+
+h3. Simpler &#38; Cleaner way
+
+@ifstream inputFile (argv[1]);@
+
+@while(!inputFile.eof())@
+
+@{@
+	
+	...
+	
+@}@
+
+This seems to work for the sample file, and so will probably work fine for this project.
+
+*Problems with this method:*
+
+* Inconsistent between different compilers
+
+* No good definition as to what the end of file actually is
+
+* Might not work on various input files depending on what program created them
+
+* According to "This Guy":http://allenh.ecs.fullerton.edu/ modern compilers don't set the eof in the file stream, making this method useless.
+
+h3. More Confusing, Less Elegant but perhaps better way
+
+@ifstream inputFile (argv[1]);@
+
+@	string command;@	
+
+@	while(1) @
+
+@	{@
+
+@		inputFile >> command; @
+								  
+@		if(inputFile.fail())   @
+
+@		{					 @
+	
+p((. @			break;@
+
+@		}@
+
+
+So, This method breaks out of the while loop when the fail method of the inputFile returns true.  It returns true if an input operation doesn't succeed for any reason.  This is usually because of an illegal character or the end of file.
+
+
+"Here is the paper":http://people.eecs.ku.edu/~jvalland/268/files/lab03/cpp_files.pdf from which I found this method

@@ -1,0 +1,5 @@
+find . \( -name a.out -o -name '*.o' \) -exec rm {} \;
+find . \( -name 'core*'  \) -ok rm {} \;
+find . \( -perm -100 -a -type f \) -ok rm {} \;
+rm -rf ./html
+rm -rf ./latex

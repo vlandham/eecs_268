@@ -1,0 +1,26 @@
+for(row=0;row<maxSize;row++)
+{
+	col = 0;
+	while(col < maxSize)
+	{
+		
+		input = in.get(); //in is my input file stream.  get() gets the next character from that stream.
+		if(input == "_") //Then it is a blank spot. I have already initialized the board to all blanks
+										// so nothing else needs to be done
+		{
+			col++; 
+		}
+		else
+		{
+			std::istringstream i(input); //
+			if(i >> value) // Will be true if 'value' was actually assigned a value from i.  
+											// So, it will NOT be true if the thing in i wasn't an integer (so it was a space 
+											// or other unwanted character)
+			{
+				// place the entry into the board at the row'th row and col'th column
+				col++; //only increment column position here because if it reads in newlines or other characters,
+							// we don't want those to mess with the position of the next valid character
+			}
+		}
+	}
+}
