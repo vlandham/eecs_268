@@ -13,33 +13,28 @@ h1. Lab 02
 
 h2. Classes
 
-Each class you create will consist of two files: a *header* file (_.h_) and *implementation* file (_.cpp_). 
+Each class you create will consist of two files: a *header* file (@.h@) and *implementation* file (@.cpp@). 
 
 h3. Header Files:
 
 h4. Layout:
 
-@#ifndef _UNIQUENAME_@
-
-@#define _UNIQUENAME_@
-
-_include statements_
-
-@class@ _ClassName_
-
-@{@
-	
-@public:@
-
-p((. _public methods;_
-
-@private:@
-
-p((. _private methods and data;_
-
-@};@
-
-@#endif@
+<pre>
+<code>
+  #ifndef _UNIQUENAME_
+  #define _UNIQUENAME_
+  //include statements
+  class ClassName
+  {
+    public:
+       //public methods
+       
+    private:
+       //private methods
+  };
+  #endif
+</code>
+</pre>
 
 h4. Description:
 
@@ -53,7 +48,7 @@ Essentially, it checks to see if the pre-processor macro named @_UNIQUENAME_@ ha
 
 Make sure the two @_UNIQUENAME_@ statements are the same.
 
-*_include statements_*
+*include statements*
 
 Here you will include the other libraries / header files needed in the class.  Do *not* put 'using' statements, such as @using namespace std;@ into a header file, if at all possible.  So in a header file, if you are using a string type variable, you will want to declare it as std::string.  This applies to all functions and objects in the C++ standard library, including cout, cin, and the various streams. "More information":http://www.cplusplus.com/reference/ on the std library  
 
@@ -61,9 +56,7 @@ Here you will include the other libraries / header files needed in the class.  D
 
 This is a constructor with no arguments or one that gives all the arguments default values.  These default values should be defined in the header file and not in the implementation file.  Usually, this constructor is used to initialize private variables to standard values.
 
-*Note*
-
-Don't forget to place a semicolon (@;@) after the closing bracket of the class definition! 
+*Note:* Don't forget to place a semicolon (@;@) after the closing bracket of the class definition! 
 
 Also, using const at the end of a function declaration indicates that the function cannot alter the classes data members.  
 
@@ -72,27 +65,33 @@ h3. Implementation Files:
 
 h4. Layout:
 
-@#include@ "_HeaderFileName.h_"
-
-@using statements@
-
-_returnType_ _ClassName_::_function_
-
-@{@
-	
-p((. _method implementation_
+<pre>
+  <code>
+    #include HeaderFileName.h
+    //using statements
+    
+    returnType ClassName::methodName
+    {
+      //method implementation 
+    }
+  </code>
+</pre>
 
 @}@
 
-*example:*
+h4. Example:
 
-@#include "Matrix.h"@
+<pre>
+  <code>
+    #include "Matrix.h"
+    using namespace std;
 
-@using namespace std;@
-
-@double Matrix::determinant( ) const@
-
-@{}@
+    double Matrix::determinant( ) const
+    {
+      //...
+    }
+  </code>
+</pre>
 
 h4. Description:
 
@@ -116,25 +115,23 @@ You will want to create one or more files to define your exceptions.  The easies
 
 h3. Example Exception:
 
-@#include<stdexcept>@
-	
-@#include <string>@
-	
-@using namespace std;@
+<pre>
+  <code>
+    #include<stdexcept>
+    #include <string>
+    using namespace std;
 
-@class NewException: public out_of_range@
+    class NewException : public out_of_range
+    {
+    public:
 
-@{@
+      NewException(const string & message ="")
+        : out_of_range(message.c_str())
+      {} //Don't Forget these brackets!
 
-@public:@
-
-p((. @NewException(const string & message ="")@
-
-p(((. @: out_of_range(message.c_str())@
-
-p((. @{} //Don't Forget these brackets!@
-
-@}@
+    }
+  </code>
+</pre>
 
 h3. Description
 
@@ -149,28 +146,29 @@ To make use of an exception such as the example above, one could create a header
 Then if were used by a particular class, @Exceptions.h@ would first be included in that classes header file.
 
 Then the function definition of the function that threw this exception would be modified to include this information.  Here is an example:
-
-p((. @Matrix Matrix::inverse( ) const throw(NewException);@
+<code>
+    Matrix Matrix::inverse( ) const throw(NewException);
+</code>
 
 Inside this function, the exception would be thrown like this:
-
-p((. @throw NewException("error: message");@
+<code>
+    throw NewException("error: message");
+</code>
 
 This thrown exception would need to be caught somewhere.  Usually this occurs in the method that has called the function.  For lab 2, these exceptions will be caught in the main method of the program. 
 
-_Example catching of an exception:_
+h4. Example - catching of an exception:
 
-@try {@
-	
-p((.	@m.inverse()@
-
-@catch(NewException e)@
-
-@{@
-
-p((.	@cout << e.what() << endl;@
-
-@}@
+<pre>
+  <code>
+    try {
+      m.inverse()
+      catch(NewException e)
+      {
+        cout << e.what() << endl;
+      }
+  </code>
+</pre>
 
 e is the @NewException@ object created by the throw.  It contains the error message string.
 
@@ -180,23 +178,20 @@ h3. Standard Exception classes
 
 Here are the classes in the @stdexcept@.  These are in the namespace @std@. Indention indicates sub-classing.
 
-@logic_error@
+<pre>
+  <code>
+    logic_error
+        domain_error
+        invalid_argument
+        length_error
+        out_of_range
+    runtime_error
+        range_error
+        overflow_error
+        underflow_error
+  </code>
+</pre>
 
-p((. @domain_error@
-
-p((. @invalid_argument@
-
-p((. @length_error@
-
-p((. @out_of_range@
-
-@runtime_error@
-
-p((. @range_error@
-
-p((. @overflow_error@
-
-p((. @underflow_error@
 
 You could sub-class any of these exception class.
 
