@@ -12,8 +12,8 @@ latest: 03
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en-us">
 <head>
    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-   <title><%= @page.title %></title>
-   <meta name="author" content="<%= @page.author %>" />
+   <title>EECS 268 - <%= @page.title %></title>
+   <meta name="author" content="Jim V" />
 
    <!--- Blueprint CSS Framework -->
    <link rel="stylesheet" href="/css/blueprint/screen.css" type="text/css" media="screen, projection" />
@@ -31,7 +31,7 @@ latest: 03
 <div class="container">
 
    <div class="column span-20 prepend-2 append-2 first last" id="header">
-     <p class="title">EECS 268 - Lab</p>
+     <a class="title" href="<%= url_for_page :title => "Home Page" %>">EECS 268 - Lab </a>
      <p class="subtitle">Fall 2008</p>
      <hr>
    </div>
@@ -63,18 +63,21 @@ latest: 03
       <div class="clear">
         
       </div>
-      
-      <div class="box">
-          <p class="last">Mauris a lectus. Aliquam erat volutpat. Phasellus ultrices mi a sapien. Nunc rutrum egestas lorem. Duis ac sem sagittis elit tincidunt gravida.</p>
-       </div>
-
+    
    </div>
 
    <div class="column span-20 prepend-2 append-2 first last" id="footer">
      <hr />
-     <p>This website was created by Jim Vallandingham</p>
+     <p class="quiet">created by Jim Vallandingham</p>
    </div>
-
 </div>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+var pageTracker = _gat._getTracker("UA-4213349-2");
+pageTracker._trackPageview();
+</script>
 </body>
 </html>

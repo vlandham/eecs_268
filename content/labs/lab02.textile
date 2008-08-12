@@ -77,8 +77,6 @@ h4. Layout:
   </code>
 </pre>
 
-@}@
-
 h4. Example:
 
 <pre>
@@ -210,16 +208,19 @@ Gives you the ability to redefine commonly used symbols to function how you want
 h3. Syntax
 
 create a function with the format:
+<code>
+    <returnType> operator <symbol> <arguments> 
+</code>
 
-_returnType_ @operator@ _symbol_ _arguments_ 
+An *example* would be:
+<code>
+    Matrix operator*(const Matrix& rhs) const;
+</code>
 
-*Example*
-
-@Matrix operator*(const Matrix& rhs) const;@
-
-This redefines the '*' operator so that you are able to use it to multiply matrices using:
-
-@result_matrix = matrix1 * matrix2@
+This redefines the "*" operator so that you are able to use it to multiply matrices using:
+<code>
+    result_matrix = matrix1 * matrix2 
+</code>
 
 Also good for redefining '==', '>=', etc.  With these you could base equality on an internal (private) variable and then return a boolean value based on this comparison. 
  

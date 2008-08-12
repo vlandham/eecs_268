@@ -107,7 +107,7 @@ ddd or Data Display Debugger is a front-end to gdb which provides a graphical us
 
 *Note:* In order to use gdb (and therefore ddd), all components of a program must be compiled using the "@-g@" flag.
 
-"Sample Program to Debug":http://people.eecs.ku.edu/~jvalland/268/files/lab01/sample_lab_with_debugging.tar
+"Sample Program to Debug":http://people.eecs.ku.edu/~jvalland/files/intro/sample_lab.tar
 
 h4. Common Commands in ddd
 
@@ -124,6 +124,7 @@ Projects containing more than one file should be packaged together as a tar file
 Sample tar command:
 <code>
     tar cf jvalland_project1.tar jvalland_project1
+    
 </code>
 
 Explanation:
@@ -149,7 +150,9 @@ Flag:
 Example:
 <code>
   jvalland_lab01.tar
+  
 </code>
+
 
 h3. Other useful commands
 

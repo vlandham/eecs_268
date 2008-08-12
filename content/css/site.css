@@ -45,6 +45,15 @@ hr {
   
 }
 
+.alert {
+	background: #fff6bf url(/css/blueprint/plugins/buttons/icons/exclamation.png) center no-repeat;
+	background-position: 15px 50%; /* x-pos y-pos */
+	text-align: left;
+	padding: 5px 20px 5px 45px;
+	border-top: 2px solid #ffd324;
+	border-bottom: 2px solid #ffd324;
+	}
+
 .clear {
   width: 100%;
   height: 20px;
@@ -67,11 +76,12 @@ th,td {
 p.quiet { color: <%= @page.color['quiet'] %>; }
 .alt    { color: <%= @page.color['alt'] %>; }
 
-p.title {
+a.title {
   color: #111;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 2em;
+  font-size: 2.6em;
   margin-bottom: 0.75em;
+  text-decoration: none;
 }
 
 #header p.title { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }

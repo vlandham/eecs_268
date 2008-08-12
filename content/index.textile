@@ -4,6 +4,9 @@ filter:
   - erb
   - textile
 ---
+
+<%- #<div class="alert"></div> -%>
+
 h2. Labs
 
 <% labs = @pages.find(:all, :in_directory => "labs" ) %>
@@ -19,12 +22,3 @@ h2. Helpful Notes
 <% notes.each do |note| %>
 h3. <%= link_to note.title, note %>
 <% end %>
-
-<% coderay :lang => 'ruby', :line_numbers => 'inline' do -%>
-class Object
-  def returning( r )
-    yield r if block_given?
-    r
-  end
-end
-<% end -%>
