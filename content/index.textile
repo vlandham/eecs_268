@@ -14,11 +14,25 @@ h2. Labs
 <% labs.reject! {|lab| lab.order.to_i > SITE.latest} %>
 <% labs.each do |lab| %>
 h3. <%= link_to lab.title, lab  %>
+
+  <%
+    files = nil
+    begin 
+      files = @pages.find(:all, :in_directory => "files/#{lab.filename}")
+    rescue # if the folder isn't there
+    end
+  %>
+  <% if files
+      files.reject! {|file| file.filename =~ /^\./}
+      files.each do |file| %>
+* <%= link_to file.filename, file, :attrs => {:class => "file"} %>
+      <% end %>
+  <% end %>
 <% end %>
 
 h2. Helpful Notes
 
-<% notes = @pages.find(:all, :in_directory => "notes") %>
+<% notes = @pages.find(:all, :in_directory => "notes", :sort_by => "mtime") %>
 <% notes.each do |note| %>
 h3. <%= link_to note.title, note %>
 <% end %>

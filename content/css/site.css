@@ -84,7 +84,22 @@ a.title {
   text-decoration: none;
 }
 
-#header p.title { font-size: 3em; line-height: 1; margin-bottom: 0.5em; }
+h3 a {
+  text-decoration: none;
+}
+
+a.file {
+  font-size: 1.2em;
+  color: <%= @page.color['quiet'] %>;
+  line-height:1.5em;
+  text-decoration: none;
+}
+
+a:hover.file {
+  color: <%= @page.color['link-hover'] %>;
+}
+
+#header a.title { font-size: 3em; line-height: 1.2; margin-bottom: 0.8em; text-decoration: none; }
 #header p.subtitle { font-size: 2em; line-height: 1; margin-bottom: 0.5em; }
 
 /* EOF */
