@@ -6,8 +6,16 @@ layout:    nil   # no layout
 color:
   border:      "#ddd"
 ---
+#header {
+  display:none;
+}
+
 .side {
   display: none
+}
+
+#footer {
+  display: none;
 }
 
 a:link, a:visited {
