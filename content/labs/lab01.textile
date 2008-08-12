@@ -48,21 +48,38 @@ Commenting required in each source code file:
 h2. typedef
 
 Format of a typedef statement:
+<code>
+  typedef DataType AliasName
+  
+</code>
 
-p((. typedef _DataType_ _AliasName_;
+@DataType@ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
 
-_DataType_ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
-
-_AliasName_ is what you want the new name to be.
+@AliasName@ is what you want the new name to be.
 
 h3. typedef examples
 
-* @typedef double LargeNumber;@
-** here @LargeNumber@ could now be used to declare a variable of type @double@.
-* @typedef double* PointerDouble;@
-** now @PointerDouble@ can be used to declare a pointer to a @double@.
-* @typedef int IntArray[15];@
-** @IntArray@ now can be used to create an array of @integers@ of size fifteen.
+<pre>
+  <code>
+    typedef double LargeNumber;
+        //here LargeNumber can now be used to declare a variable of type double.
+        
+    typedef double* PointerDouble;
+        //now PointerDouble can be used to declare a pointer to a double.
+        
+    typedef int IntArray[15];
+        //IntArray now can be used to create an array of integers of size fifteen.
+        
+    typedef double LargeNumber;
+        //here LargeNumber could now be used to declare a variable of type double.
+    
+    typedef double* PointerDouble;
+        //now PointerDouble can be used to declare a pointer to a double.
+        
+    typedef int IntArray[15];
+        //IntArray now can be used to create an array of integers of size fifteen.
+  </code>
+</pre>
 
 Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
 
@@ -118,7 +135,7 @@ In this setup, the cofactors are taken care of using the (-1)^i+j^ which multipl
 
 When the minors associated with each element are larger than 2x2, then they must be expanded in turn until they are reduced to 2x2 matrices, from which a determinant can be computed.
 
-*Example* If the original matrix was of size 4x4, then this first expansion would create 4 minors, each of size 3x3.  Each 3x3 matrix would then need to be expanded to 3 2x2 matrices.  From these 2x2 matrices, a determinant is computed.
+*Example:* If the original matrix was of size 4x4, then this first expansion would create 4 minors, each of size 3x3.  Each 3x3 matrix would then need to be expanded to 3 2x2 matrices.  From these 2x2 matrices, a determinant is computed.
 
 h2. Matrix Inverse
 
