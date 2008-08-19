@@ -11,7 +11,7 @@ order: 06
 
 h1. Lab 06
 
-h2.	Random Number Generation
+h2. Random Number Generation
 
 Simple random numbers can be created with the %rand()% function.  Because we are comparing multiple sorting algorithms, it makes sense to test them on the same data.  So, we want the randomly generated array used in one sorting method to be the same randomly generated array used in another.  This can be done by 'seeding' the random number generator, so that using this seed, the generator will create the same random numbers in the same order.  Seeding the random number function can be done with the %srand()% function.  You *only want to seed once*.  That is to say you don't want to seed each time you create a new random number, but just once before the number creation process starts.
 
@@ -21,29 +21,28 @@ Another, more complicated method is also given below, which is supposedly immune
 
 h3. Random Numbers: Example code
 
-h4.	Simple Modulus Method
+h4. Simple Modulus Method
 
-%srand(123);   //seed the random number generator%
-
-%int highest = 100;%
-
-%int lowest = 0;%
-
-int randomNumber = lowest + rand()%((highest-lowest)+1);
+<pre>
+  <code>
+    srand(123);   //seed the random number generator
+    int highest = 100;
+    int lowest = 0;
+    int randomNumber = lowest + rand()%((highest-lowest)+1);
+  </code>
+</pre>
 
 h4. More Complicated Method
 
-%srand(123);   //seed the random number generator%
-
-%int highest = 100;%
-
-%int lowest = 0;%
-
-%int range = (highest-lowest)+1;%
-
-%int randomNumber = lowest+int(range*(rand()/(RAND_MAX+1.0)));%
-
-%--------------%
+<pre>
+  <code>
+    srand(123);   //seed the random number generator
+    int highest = 100;
+    int lowest = 0;
+    int range = (highest-lowest)+1;
+    int randomNumber = lowest+int(range*(rand()/(RAND_MAX+1.0)));
+  </code>
+</pre>
 
 Probably either one of these will work for our purposes, people just seem to lean towards using the second one.
 
@@ -55,23 +54,23 @@ This example is taken directly from "This Site":http://www.juniata.edu/faculty/k
 
 h3. Timing: Example code
 
-%#include &lt;ctime&gt;%
-	
-%clock_t start,finish;%
+<pre>
+  <code>
+    #include <ctime>;
 
-%double time;%
+    clock_t start,finish;
+    double time;
+    start = clock();
 
-%start = clock();%
+    //sort something
 
-%//sort something%
+    finish = clock();
+    
+    time = (double(finish)-double(start))/CLOCKS_PER_SEC;
+  </code>
+</pre>
 
-%finish = clock();%
-
-%time = (double(finish)-double(start))/CLOCKS_PER_SEC;%
-
-%--------------%
-
-Here, the %clock()% function returns the number of clock ticks elapsed since the program was launched.  So we first take the clock ticks before the sort algorithm.  Then we take the clock ticks again after the code we are interested in has completed.  Subtracting these two numbers gives us the number of ticks that the algorithm took to complete.  %CLOCKS_PER_SEC% holds the conversion rate from clock ticks to seconds.  So we divide by this number to get the total seconds taken.  
+Here, the @clock()@ function returns the number of clock ticks elapsed since the program was launched.  So we first take the clock ticks before the sort algorithm.  Then we take the clock ticks again after the code we are interested in has completed.  Subtracting these two numbers gives us the number of ticks that the algorithm took to complete.  %CLOCKS_PER_SEC% holds the conversion rate from clock ticks to seconds.  So we divide by this number to get the total seconds taken.  
 
 You could also leave the number in clock ticks - as long as you perform all your experiments on the same machine.  
 
@@ -101,13 +100,21 @@ Shell scripts usually have the file extension '.sh'.
 
 A shell script starts with a line indicating the interpreter program that will execute the file.  In our case, we would like the default shell to run the commands so our first line would be:
 
-%#!/bin/sh%
+<pre>
+<code>
+  #!/bin/sh
+</code>
+</pre>
 
 Then we can add lines to the file, each one will be executed as if they were typed in from the command prompt.
 
 Ex:
 
-%./lab06 250 random selection >> select_out.txt%
+<pre>
+<code>
+  ./lab06 250 random selection >> select_out.txt
+</code>
+</pre>
 
 Note the use of the '>>' character.  This *redirects* the output of the command to a file.  The double arrow indicates that the output will be *appended* to the file, instead of overwriting the contents of the output file.
 
@@ -115,7 +122,11 @@ So you could make a line like this for everyone of your needed commands and have
 
 To make this shell script executable, navigate to the directory holding it in the terminal and add executable rights to the file:
 
-%chmod +x lab06.sh%
+<pre>
+<code>
+  chmod +x lab06.sh
+</code>
+</pre>
 
 then you can run it from the command line like a normal executable program.
 
