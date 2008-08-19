@@ -19,49 +19,83 @@ h3. Syntax
 
 Here are the common usages of pointers.
 
-*Creation*
+h4. Creation
 
-@int *p@       _-- creates a pointer that can point to integers._
+<pre><code>
+    int *p;      //-- creates a pointer that can point to integers
+    
+    string *s;   //-- creates a pointer that can only point to string objects
+    
+</code></pre>
 
-@string *s@    _-- creates a pointer that can only point to string objects._
+h4. Assigning an Address
 
-*Assigning an Address*
+<pre>
+  <code>
+    int x = 7;   //-- x is just a normal integer
+    
+    p = &x;      //-- indicates that the pointer p now 
+                 //   contains the memory address of the variable x.
+                 //   So p points to x.
+  </code>
+</pre>
 
-@int x = 7;@    _-- x is just a normal integer._
+h4. Assigning Values using Pointers
 
-@p = &x@        _-- indicates that the pointer p now contains the memory address of the variable x.  So @p@ points to @x@._
+<pre>
+  <code>
+    *p = 2;      //-- this changes the value stored in the address held by p. 
+                 //   Meaning *p and x will change.     
+  </code>
+</pre>
 
-*Assigning Values using Pointers*
+h4. Using Multiple Pointers
 
-@*p = 2;@      _-- this changes the value stored in the address held by p. Meaning *p and x will change._
+<pre>
+  <code>
+    int *q;		   //-- q is another integer pointer.
+    
+    q = p;       //-- q and p point to the same thing.  
+                 //   Meaning, p and q now contain the same memory address.
+  </code>
+</pre>
 
-*Using Multiple Pointers*
+"See my example":http://people.eecs.ku.edu/~jvalland/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
 
-@int *q;@		  _-- q is another integer pointer_
 
-@q = p;@      _-- q and p point to the same thing.  Meaning, p and q now contain the same memory address._
+h2. Notes on insert method
 
-"See my example":http://people.eecs.ku.edu/~jvalland/268/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
-
-h2.	Notes on insert method
-
-@ListNode *newPtr = new ListNode;@
-
+<pre>
+<code>
+  ListNode *newPtr = new ListNode;
+</code>
+</pre>
 Here we are dynamically creating a new ListNode object that will hold the string newItem.  So newPtr is a ListNode pointer which points to (contains the address of) this new ListNode.
 
-@newPtr->item = newItem;@
-
+<pre>
+<code>
+  newPtr->item = newItem;
+</code>
+</pre>
 Here we assign the item variable held inside the ListNode object pointed to by newPtr.  This is special syntax needed when dealing with objects or structures referenced to by pointers instead of actual variables. 
 
-If this were a statically allocated ListNode, the equivalent call would be @l_node1.item = newItem;@, where @l_node1@ is an object of type ListNode.  However, since it is dynamically allocated, we can't use the _object . method_ syntax, and instead must use the _pointer -> method_ syntax.
+If this were a statically allocated ListNode, the equivalent call would be @l_node1.item = newItem;@, where @l_node1@ is an object of type ListNode.  However, since it is dynamically allocated, we can't use the *[object]* _._ *[method]* syntax, and instead must use the *[pointer]* _->_ *[method]* syntax.
 
-@newPtr->next = head;@
-
-@head = newPtr;@
+<pre>
+  <code>
+    newPtr->next = head;
+    
+    head = newPtr;
+  </code>
+</pre>
 
 Here we are dealing with the 'head' pointer.  Remember, head is not an actual node, but just another node pointer, just like the 'next' pointer in each ListNode.
 
-@try {} catch (bad_alloc e) {}@
+<pre>
+<code>
+  try {} catch (bad_alloc e) {}
+</code>
+</pre>
 
 Good example of multiple layers of exception handling.  The 'new' function could fail if we run out of memory (although very unlikely for this lab).  This shows the method 'insert' catching the possible exception that can occur (@bad_alloc@) and then throwing its own exception as a way of dealing with it (ListException).  This allows our main function to only deal with list exceptions.  It also abstracts the way we are holding the list from how it is accessed.  	
 
@@ -71,15 +105,16 @@ Two ways I have found to work for this project.
 
 h3. Simpler &#38; Cleaner way
 
-@ifstream inputFile (argv[1]);@
-
-@while(!inputFile.eof())@
-
-@{@
-	
-	...
-	
-@}@
+<pre>
+  <code>
+    ifstream inputFile (argv[1]);
+    
+    while(!inputFile.eof())
+    {
+      //... 
+    }
+  </code>
+</pre>
 
 This seems to work for the sample file, and so will probably work fine for this project.
 
@@ -95,26 +130,29 @@ This seems to work for the sample file, and so will probably work fine for this 
 
 h3. More Confusing, Less Elegant but perhaps better way
 
-@ifstream inputFile (argv[1]);@
+<pre>
+  <code>
+    ifstream inputFile (argv[1]);
+    string command;
 
-@	string command;@	
+    while(1)
+    {
+      inputFile >> command;
 
-@	while(1) @
+      if(inputFile.fail())   
+      {					 
+          break;
+      }
+      
+      // ...
+    }
+  </code>
+</pre>
 
-@	{@
 
-@		inputFile >> command; @
-								  
-@		if(inputFile.fail())   @
-
-@		{					 @
-	
-p((. @			break;@
-
-@		}@
 
 
 So, This method breaks out of the while loop when the fail method of the inputFile returns true.  It returns true if an input operation doesn't succeed for any reason.  This is usually because of an illegal character or the end of file.
 
 
-"Here is the paper":http://people.eecs.ku.edu/~jvalland/268/files/lab03/cpp_files.pdf from which I found this method
+"Here is the paper":http://people.eecs.ku.edu/~jvalland/files/lab03/cpp_files.pdf from which I found this method
