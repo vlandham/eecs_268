@@ -6,7 +6,7 @@ SITE.remote_dir = "~/public_html"
 # SITE.base = "file:///Users/vlandham/Sites/eecs_268/output/"
 SITE.host = 'wozniak.eecs.ku.edu'
 SITE.exclude << ".DS_STORE" << "/.git" << "/.gitignore"
-SITE.latest = 01
+SITE.latest = 1
 task :default => :build
 
 desc 'deploy the site to the webserver'
