@@ -10,6 +10,6 @@ SITE.latest = 01
 task :default => :build
 
 desc 'deploy the site to the webserver'
-task :deploy => ['deploy:set_base', :rebuild, 'deploy:ssh']
+task :deploy => ['deploy:set_base', :rebuild, 'deploy:ssh', :push]
 
 # EOF
