@@ -9,9 +9,9 @@ filter:
 order: 05
 ---
 
-h1.	Lab 05
+h1. Lab 05
 
-h2.	Overview
+h2. Overview
 
 This is a larger and significantly more complex, in terms of objects, lab then the previous ones (hence the 3 weeks to implement).  However, the implementation itself is fairly straightforward.  
 
@@ -32,9 +32,13 @@ You can only use static casting, which uses the compiler to perform the conversi
 
 Static casting example:
 
-@// acct is originally of type * BankAcct, which is the parent class of SavingsAcct@
-
-@SavingsAcct* d1 = static_cast<SavingsAcct*>(acct);@
+<pre>
+  <code>
+    // acct is originally of type * BankAcct, 
+    //  which is the parent class of SavingsAcct
+    SavingsAcct* d1 = static_cast<SavingsAcct*>(acct);
+  </code>
+</pre>
 
 *Dynamic casting* performs the cast conversion during runtime. Only works with polymorphic classes (those with a virtual method). 
 
@@ -42,15 +46,27 @@ Here is an example from my implementation of lab 05.  Background: I am trying to
 
 1. First you need to add a virtual method to your Customer class.  This can be accomplished by making your destructor virtual;
 
-@	virtual ~Customer(){};@
+<pre>
+<code>
+  virtual ~Customer(){};
+</code>
+</pre>
 
 2. Now you can use dynamic casting.  If the cast is unsuccessful, it returns a null pointer.  In this example, patron is of type Customer *.
 
-@VIP * vip = dynamic_cast<VIP*>(patron);@
-
-@if(vip) //then I know that the dynamic cast was successful, so the original type was a VIP class.@
-
-@else // then the dynamic cast was unsuccessful, and so it was of type Customer or RegularCustomer@
+<pre>
+  <code>
+    VIP * vip = dynamic_cast<VIP*>(patron);
+    if(vip) {
+      //then I know that the dynamic cast was successful, 
+      //  so the original type was a VIP class.
+    }
+    else {
+      //then the dynamic cast was unsuccessful, 
+      //  and so it was of type Customer or RegularCustomer
+    }
+  </code>
+</pre>
 
 So now you can try to dynamically cast your object to a new class, and if it is successful, then you know what type it originally was, and so you can modify your behavior according to original class.
 
@@ -62,9 +78,13 @@ In this lab, we are performing different functions based on a naming scheme we r
 
 One easy way to do this is to use the string 'find' method.
 
-Find Format:
+h4. Find Format:
 
-@size_type find( const string& str, size_type index );@
+<pre>
+<code>
+  size_type find( const string& str, size_type index );
+</code>
+</pre>
 
 where 'str' is what you are searching for, and 'index' is where you start. 
 
@@ -72,9 +92,14 @@ This returns a number of type @string::size_type@ representing the location wher
 
 So we can use this find method to check for "VIP" or "Customer" in the name, and take the appropriate action.
 
-@string::size_type vip_location = patronName.find( "VIP", 0 );@ 
-
-@if(vip_location != string::npos)@
+<pre>
+  <code>
+    string::size_type vip_location = patronName.find( "VIP", 0 );
+    if(vip_location != string::npos) {
+      //...
+    }
+  </code>
+</pre>
 
 h3. at & length
 
