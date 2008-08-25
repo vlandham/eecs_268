@@ -11,58 +11,6 @@ order: 03
 
 h1. Lab 03
 
-h2. Pointers
-
-Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
-
-h3. Syntax
-
-Here are the common usages of pointers.
-
-h4. Creation
-
-<pre><code>
-    int *p;      //-- creates a pointer that can point to integers
-    
-    string *s;   //-- creates a pointer that can only point to string objects
-    
-</code></pre>
-
-h4. Assigning an Address
-
-<pre>
-  <code>
-    int x = 7;   //-- x is just a normal integer
-    
-    p = &x;      //-- indicates that the pointer p now 
-                 //   contains the memory address of the variable x.
-                 //   So p points to x.
-  </code>
-</pre>
-
-h4. Assigning Values using Pointers
-
-<pre>
-  <code>
-    *p = 2;      //-- this changes the value stored in the address held by p. 
-                 //   Meaning *p and x will change.     
-  </code>
-</pre>
-
-h4. Using Multiple Pointers
-
-<pre>
-  <code>
-    int *q;		   //-- q is another integer pointer.
-    
-    q = p;       //-- q and p point to the same thing.  
-                 //   Meaning, p and q now contain the same memory address.
-  </code>
-</pre>
-
-"See my example":http://people.eecs.ku.edu/~jvalland/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
-
-
 h2. Notes on insert method
 
 <pre>
