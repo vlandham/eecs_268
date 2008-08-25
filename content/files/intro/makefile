@@ -1,4 +1,4 @@
-lab1:HelloWorld.o MyClass.o
+all:HelloWorld.o MyClass.o
 	g++ HelloWorld.o MyClass.o -o lab1
 
 HelloWorld.o:HelloWorld.cpp MyClass.h
