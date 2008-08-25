@@ -139,7 +139,10 @@ Flags:
 * @f@ is for the file name of the tar file which should be immediately followed by the tar file name.
 
 Extracting a tar file:
-p((. @tar xf project1.tar@
+<code>
+  tar xf project1.tar
+  
+</code>
 
 Flag:
 
