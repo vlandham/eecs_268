@@ -97,6 +97,98 @@ The format is fairly straightforward, as long as you remember to include the "@M
 
 Inside a function definition, you can access the functions directly without the use of any prefix. So for example, inside the inverse function, the determinant function of the Matrix class could be called using @determinant()@ instead of @Matrix::determinant();@.
 
+h2. Pointers
+
+Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
+
+h3. Syntax
+
+Here are the common usages of pointers.
+
+h4. Creation
+
+<pre><code>
+    int *p;      //-- creates a pointer that can point to integers
+    
+    string *s;   //-- creates a pointer that can only point to string objects
+    
+</code></pre>
+
+h4. Assigning an Address
+
+<pre>
+  <code>
+    int x = 7;   //-- x is just a normal integer
+    
+    p = &x;      //-- indicates that the pointer p now 
+                 //   contains the memory address of the variable x.
+                 //   So p points to x.
+  </code>
+</pre>
+
+h4. Assigning Values using Pointers
+
+<pre>
+  <code>
+    *p = 2;      //-- this changes the value stored in the address held by p. 
+                 //   Meaning *p and x will change.     
+  </code>
+</pre>
+
+h4. Using Multiple Pointers
+
+<pre>
+  <code>
+    int *q;		   //-- q is another integer pointer.
+    
+    q = p;       //-- q and p point to the same thing.  
+                 //   Meaning, p and q now contain the same memory address.
+  </code>
+</pre>
+
+"See my example":http://people.eecs.ku.edu/~jvalland/files/lab01/pointers.cpp (mostly from the book) for more experience with pointers.
+
+h2. typedef
+
+Format of a typedef statement:
+<code>
+  typedef DataType AliasName
+  
+</code>
+
+@DataType@ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
+
+@AliasName@ is what you want the new name to be.
+
+h3. typedef examples
+
+<pre>
+  <code>
+    typedef double LargeNumber;
+        //here LargeNumber can now be used to declare a variable of type double.
+        
+    typedef double* PointerDouble;
+        //now PointerDouble can be used to declare a pointer to a double.
+        
+    typedef int IntArray[15];
+        //IntArray now can be used to create an array of integers of size fifteen.
+        
+    typedef double LargeNumber;
+        //here LargeNumber could now be used to declare a variable of type double.
+    
+    typedef double* PointerDouble;
+        //now PointerDouble can be used to declare a pointer to a double.
+        
+    typedef int IntArray[15];
+        //IntArray now can be used to create an array of integers of size fifteen.
+  </code>
+</pre>
+
+Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
+
+"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
+
+
 h2. Exceptions
 
 You will need to deal with three things to utilize exceptions in your code:

@@ -47,99 +47,75 @@ Commenting required in each source code file:
 
 4. Comments in the body of each function elaborating on important / difficult logic
 
-h2. Pointers
+h2. Passing Command Line Arguments
 
-Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
+A very common requirement of an application is that it accepts parameters passed to it on execution.  In other words, many programs need some information during 'startup' to get going.
 
-h3. Syntax
+In C++, this can be accomplished using a special argument list for your main function.  So your main function will be modified to look like this:
 
-Here are the common usages of pointers.
+<pre>
+  <code>
+    int main(int argc, char* argv[])
+    {
+      //...
+    }
+  </code>
+</pre>
 
-h4. Creation
+Here we now give two arguments to main: argc and argv.  
+
+*argc* is an integer that indicates the number of arguments passed to your program.  Make note that in C++ the _name_ of your program counts as your first parameter.  So argc will always be at least 1.
+
+*argv* is an array of character pointers, each of which points to one of the arguments that was passed in.  Because your program's name counts as the first parameter, @argv[0]@ will always point to that character array.
+
+So, for example, if you had an application called @tester@ and you executed this application using the following command:
+
+<pre>
+  <code>
+    $ tester hey you guys
+		
+  </code>
+</pre>
+
+the variable @argc@ would automatically be populated with the value 4, as there are 3 parameters given, plus the name of the application.  Likewise @argv@ would be an array of size 4.  @argv[0] = "tester"@, @argv[1] = "hey"@, @argv[2] = "you"@, @argv[3] = "guys"@.
+
+h3. Command Line Arguments in DDD
+
+In order to debug applications that require command line arguments, you will need to indicate to ddd how to run your application.  This can be done in the following steps:
+
+* open your application in ddd as usual: @ddd app_name@
+* Click on the _Program_ drop-down menu
+* Click on the option _Run..._
+* A new pop-up window will appear
+* Place your cursor in the bottom text box of this window
+* Type in the arguments you'd like to pass to the application at runtime
+** Remember: Use tab auto-completion
+
+h2. Character Sequences
+
+Good tutorial at "the c++ reference site":http://www.cplusplus.com/doc/tutorial/ntcs.html
+
+h3. File Streams
+
+We will be making use of *ofstreams* and *ifstreams* for reading and writing to files.
+
+To create a i/ofstream with a particular name, simply pass its name as a parameter to the file stream constructor:
 
 <pre><code>
-    int *p;      //-- creates a pointer that can point to integers
-    
-    string *s;   //-- creates a pointer that can only point to string objects
-    
+  ifstream in("input.txt");
+  
 </code></pre>
 
-h4. Assigning an Address
+We can use the formatted read / write methods: @>>@ and @<<@.  For formatted input, the stream will be read up until the next white space.  This white space can be a space, a tab character, or a newline character:
 
 <pre>
   <code>
-    int x = 7;   //-- x is just a normal integer
-    
-    p = &x;      //-- indicates that the pointer p now 
-                 //   contains the memory address of the variable x.
-                 //   So p points to x.
+    char command[100];
+    ifstream in('input.txt');
+    in >> command;  // reads in first word of input.txt to the command variable
   </code>
 </pre>
 
-h4. Assigning Values using Pointers
+To utilize the ifstream and ofstream classes, we must include the *fstream* library.
 
-<pre>
-  <code>
-    *p = 2;      //-- this changes the value stored in the address held by p. 
-                 //   Meaning *p and x will change.     
-  </code>
-</pre>
-
-h4. Using Multiple Pointers
-
-<pre>
-  <code>
-    int *q;		   //-- q is another integer pointer.
-    
-    q = p;       //-- q and p point to the same thing.  
-                 //   Meaning, p and q now contain the same memory address.
-  </code>
-</pre>
-
-"See my example":http://people.eecs.ku.edu/~jvalland/files/lab01/pointers.cpp (mostly from the book) for more experience with pointers.
-
-h2. typedef
-
-Format of a typedef statement:
-<code>
-  typedef DataType AliasName
-  
-</code>
-
-@DataType@ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
-
-@AliasName@ is what you want the new name to be.
-
-h3. typedef examples
-
-<pre>
-  <code>
-    typedef double LargeNumber;
-        //here LargeNumber can now be used to declare a variable of type double.
-        
-    typedef double* PointerDouble;
-        //now PointerDouble can be used to declare a pointer to a double.
-        
-    typedef int IntArray[15];
-        //IntArray now can be used to create an array of integers of size fifteen.
-        
-    typedef double LargeNumber;
-        //here LargeNumber could now be used to declare a variable of type double.
-    
-    typedef double* PointerDouble;
-        //now PointerDouble can be used to declare a pointer to a double.
-        
-    typedef int IntArray[15];
-        //IntArray now can be used to create an array of integers of size fifteen.
-  </code>
-</pre>
-
-Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
-
-"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
-
-h2. Other Notes
-
-* "Review ostream":http://www.cplusplus.com/reference/iostream/ostream/
-** Look at formatting options when outputting numbers.
-* Input file to read from should be passed in as a *command line argument*.
+More information can be found on the "reference website":http://www.cplusplus.com/reference/iostream/
