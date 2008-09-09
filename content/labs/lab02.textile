@@ -104,19 +104,19 @@ All operator overloading means is that we are redefining methods to work with ne
 h3. Simple Example:
 
 the '+' operator, when used with integers, performs arithmetic addition:
+
 <pre>
-	<code>
-		7 + 3 //returns 10
-		7.+(3) //returns 10
-		
-		// However, when used with strings, 
-		// the '+' operator performs concatenation:
-		
-		"Ben " + "Murphy" //returns "Ben Murphy"
-		"Ben ".+("Murphy")
+  <code>
+    7 + 3 //returns 10
+    7.+(3) //returns 10
+  
+    // However, when used with strings, 
+    // the '+' operator performs concatenation:
+  
+    "Ben " + "Murphy" //returns "Ben Murphy"
+    "Ben ".+("Murphy")
 	</code>
 </pre>
-
 
 So this is a form of polymorphism : The ability of objects belonging to different types to respond to method calls of the same name, each one according to an appropriate type-specific behavior.
 
@@ -126,11 +126,21 @@ For these arithmetic operators, we must use a special syntax to indicate to the 
 
 This syntax is adheres to the following format:
 
-p((. @<return_type> operator<symbol_to_overload>@
+<pre>
+  <code>
+    <return_type> operator<symbol_to_overload>
+    	
+  </code>
+</pre>
 
-Example:  If we wanted to redefine the == inside of our Fraction class from lab 1, we could use something like:
+Example:  If we wanted to redefine the == inside of a Fraction class from lab 1, we could use something like:
 
-p((. @bool operator==(const Fraction& rhs) const;@
+<pre>
+  <code>
+    bool operator==(const Fraction& rhs) const;
+
+  </code>
+</pre>
 
 Where the first @const@ inside the input arguments indicates that we can't change the value of rhs while the @const@ at the end indicates that no variables of the Fraction class will be modified. 
 
@@ -185,9 +195,4 @@ h3. More Confusing, Less Elegant but perhaps better way
   </code>
 </pre>
 
-
-
-
 So, This method breaks out of the while loop when the fail method of the inputFile returns true.  It returns true if an input operation doesn't succeed for any reason.  This is usually because of an illegal character or the end of file.
-
- 
