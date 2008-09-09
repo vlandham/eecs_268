@@ -11,6 +11,107 @@ order: 03
 
 h1. Lab 03
 
+h2. Exceptions
+
+You will need to deal with three things to utilize exceptions in your code:
+
+1. Define your own exception class (which can be a sub-class of one of the existing exception classes as explained below).
+
+2. Throw your exception in your code when the error conditions have been met.
+
+3. Catch your thrown exception and deal with in in a try / catch statement. 
+
+More information for each of these steps is given here.
+
+You will want to create one or more files to define your exceptions.  The easiest way to create a new exception class in C++ is by defining a sub-class of the existing exceptions in the @stdexcept@ / @exception@ library. 
+
+h3. Example Exception:
+
+<pre>
+  <code>
+    #include<stdexcept>
+    #include <string>
+    using namespace std;
+
+    class NewException : public out_of_range
+    {
+    public:
+
+      NewException(const string & message ="")
+        : out_of_range(message.c_str())
+      {} //Don't Forget these brackets!
+
+    }
+  </code>
+</pre>
+
+h3. Description
+
+This defines a @NewException@ class which is a sub-class of @out_of_range@.  In this class we have a default constructor which assigns the string parameter to the @message@ private variable of the @out_of_range@ class. (the function c_str() converts the string to a c-style string i.e. a character array.)  The new constructor is needed because sub-classes do not inherit the constructor and destructor of the parent class.  
+
+The public keyword in the class definition indicates that functions that were previously public in the parent class should remain public in the child class.  Because of this we can call the what() function as we will see below.
+
+h3. Exception use
+
+To make use of an exception such as the example above, one could create a header file called "Exceptions.h" and place this class definition inside this file. Make sure to use the @#ifndef@ set-up in this header file to avoid multiple inclusions of this exception header.
+
+Then if were used by a particular class, @Exceptions.h@ would first be included in that classes header file.
+
+Then the function definition of the function that threw this exception would be modified to include this information.  Here is an example:
+<code>
+    Matrix Matrix::inverse( ) const throw(NewException);
+</code>
+
+Inside this function, the exception would be thrown like this:
+<code>
+    throw NewException("error: message");
+</code>
+
+This thrown exception would need to be caught somewhere.  Usually this occurs in the method that has called the function.  For lab 2, these exceptions will be caught in the main method of the program. 
+
+h4. Example - catching of an exception:
+
+<pre>
+  <code>
+    try {
+      m.inverse()
+      catch(NewException e)
+      {
+        cout << e.what() << endl;
+      }
+  </code>
+</pre>
+
+e is the @NewException@ object created by the throw.  It contains the error message string.
+
+The @what()@ method is part of the parent class @out_of_range@ and returns the value of the @message@ variable which we assign to be the error message for the exception in the exception header file. 
+
+h3. Standard Exception classes
+
+Here are the classes in the @stdexcept@.  These are in the namespace @std@. Indention indicates sub-classing.
+
+<pre>
+  <code>
+    logic_error
+        domain_error
+        invalid_argument
+        length_error
+        out_of_range
+    runtime_error
+        range_error
+        overflow_error
+        underflow_error
+  </code>
+</pre>
+
+
+You could sub-class any of these exception class.
+
+Also, all of these classes are sub-classes of the @exception@ class, which you could sub-class directly.
+
+"More information on these exceptions":http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/header_stdexcept.htm
+
+
 h2. Pointers
 
 Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
@@ -98,61 +199,3 @@ Here we are dealing with the 'head' pointer.  Remember, head is not an actual no
 </pre>
 
 Good example of multiple layers of exception handling.  The 'new' function could fail if we run out of memory (although very unlikely for this lab).  This shows the method 'insert' catching the possible exception that can occur (@bad_alloc@) and then throwing its own exception as a way of dealing with it (ListException).  This allows our main function to only deal with list exceptions.  It also abstracts the way we are holding the list from how it is accessed.  	
-
-h2. Detecting End of File
-
-Two ways I have found to work for this project.
-
-h3. Simpler &#38; Cleaner way
-
-<pre>
-  <code>
-    ifstream inputFile (argv[1]);
-    
-    while(!inputFile.eof())
-    {
-      //... 
-    }
-  </code>
-</pre>
-
-This seems to work for the sample file, and so will probably work fine for this project.
-
-*Problems with this method:*
-
-* Inconsistent between different compilers
-
-* No good definition as to what the end of file actually is
-
-* Might not work on various input files depending on what program created them
-
-* According to "This Guy":http://allenh.ecs.fullerton.edu/ modern compilers don't set the eof in the file stream, making this method useless.
-
-h3. More Confusing, Less Elegant but perhaps better way
-
-<pre>
-  <code>
-    ifstream inputFile (argv[1]);
-    string command;
-
-    while(1)
-    {
-      inputFile >> command;
-
-      if(inputFile.fail())   
-      {					 
-          break;
-      }
-      
-      // ...
-    }
-  </code>
-</pre>
-
-
-
-
-So, This method breaks out of the while loop when the fail method of the inputFile returns true.  It returns true if an input operation doesn't succeed for any reason.  This is usually because of an illegal character or the end of file.
-
-
-"Here is the paper":http://people.eecs.ku.edu/~jvalland/files/lab03/cpp_files.pdf from which I found this method

@@ -1,6 +1,4 @@
 
-load 'tasks/setup.rb'
-
 SITE.user = "jvalland"
 SITE.remote_dir = "~/public_html"
 # SITE.base = "file:///Users/vlandham/Sites/eecs_268/output/"
