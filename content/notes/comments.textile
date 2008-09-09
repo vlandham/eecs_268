@@ -43,7 +43,7 @@ Commenting required in each source code file:
 
 h3. Running doxygen
 
-See "doxygen example":http://people.eecs.ku.edu/~jvalland/268/files/lab01/someClass.h
+See "doxygen example":http://people.eecs.ku.edu/~jvalland/files/comments/someClass.h
 
 Create a new folder to hold this file, such as "doxygen_example".  Download this file ( right-click and then "Save As") to the new folder.  Open a Terminal window and navigate to this folder.  Run the following commands:
 

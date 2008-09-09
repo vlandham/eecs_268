@@ -99,30 +99,41 @@ Inside a function definition, you can access the functions directly without the 
 
 h2. Operator Overloading
 
-"Giving an operator more than one meaning"
+All operator overloading means is that we are redefining methods to work with new data types.  The 'overloading' indicates that after redefining this method, the same method name can be called to execute multiple actual methods, based on the object it is being called on, and the input parameters of the call.
 
-Using the '+' symbol to add an object to the end of an array, instead of the default arithmetic.  
+h3. Simple Example:
 
-Gives you the ability to redefine commonly used symbols to function how you want them to for your classes and allow for more intuitive code.
+the '+' operator, when used with integers, performs arithmetic addition:
+<pre>
+	<code>
+		7 + 3 //returns 10
+		7.+(3) //returns 10
+		
+		// However, when used with strings, 
+		// the '+' operator performs concatenation:
+		
+		"Ben " + "Murphy" //returns "Ben Murphy"
+		"Ben ".+("Murphy")
+	</code>
+</pre>
 
-h3. Syntax
 
-create a function with the format:
-<code>
-    <returnType> operator <symbol> <arguments> 
-</code>
+So this is a form of polymorphism : The ability of objects belonging to different types to respond to method calls of the same name, each one according to an appropriate type-specific behavior.
 
-An *example* would be:
-<code>
-    Matrix operator*(const Matrix& rhs) const;
-</code>
+h3. C++ Syntax
 
-This redefines the "*" operator so that you are able to use it to multiply matrices using:
-<code>
-    result_matrix = matrix1 * matrix2 
-</code>
+For these arithmetic operators, we must use a special syntax to indicate to the system that we want to define a method in terms of a symbol (+,-,=, etc).
 
-Also good for redefining '==', '>=', etc.  With these you could base equality on an internal (private) variable and then return a boolean value based on this comparison. 
+This syntax is adheres to the following format:
+
+p((. @<return_type> operator<symbol_to_overload>@
+
+Example:  If we wanted to redefine the == inside of our Fraction class from lab 1, we could use something like:
+
+p((. @bool operator==(const Fraction& rhs) const;@
+
+Where the first @const@ inside the input arguments indicates that we can't change the value of rhs while the @const@ at the end indicates that no variables of the Fraction class will be modified. 
+
 
 h2. Detecting End of File
 

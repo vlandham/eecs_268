@@ -163,7 +163,6 @@ h4. Using Multiple Pointers
 
 "See my example":http://people.eecs.ku.edu/~jvalland/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
 
-
 h2. Notes on insert method
 
 <pre>
