@@ -108,13 +108,11 @@ the '+' operator, when used with integers, performs arithmetic addition:
 <pre>
   <code>
     7 + 3 //returns 10
-    7.+(3) //returns 10
   
     // However, when used with strings, 
     // the '+' operator performs concatenation:
   
     "Ben " + "Murphy" //returns "Ben Murphy"
-    "Ben ".+("Murphy")
 	</code>
 </pre>
 
@@ -144,6 +142,23 @@ Example:  If we wanted to redefine the == inside of a Fraction class from lab 1,
 
 Where the first @const@ inside the input arguments indicates that we can't change the value of rhs while the @const@ at the end indicates that no variables of the Fraction class will be modified. 
 
+h2. Checking if Filestream is Open
+
+Here is some more code you'll want to add to the error checking portion of your main function
+
+<pre>
+  <code>
+    // Attempt to open the specified input file and confirm that it has been opened correctly
+  	ifstream in(argv[1]);
+  	if (in.bad())
+  	{
+  		cerr << "Error: Failed to open input file." << endl;
+  		return 1;
+  	}
+  </code>
+</pre>
+
+The new portion is the if statement.  It calls the @bad()@ method of the ifstream instance.  This you can find more information about on the reference site, but essentially it will return true if there was an error opening the file.  You'll probably want to add similar code for the output file.  
 
 h2. Detecting End of File
 
