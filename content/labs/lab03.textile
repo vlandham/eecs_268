@@ -11,6 +11,46 @@ order: 03
 
 h1. Lab 03
 
+h2. typedef
+
+Format of a typedef statement:
+
+<pre>
+  <code>
+     typedef _DataType_ _AliasName_;
+     
+  </code>
+</pre>
+
+@DataType@ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*. Could also be any class name that you've created.
+
+@AliasName@ is what you want the new name to be.
+
+h3. typedef examples
+
+<pre>
+  <code>
+    typedef double LargeNumber;
+    // here LargeNumber could now be used
+    //   to declare a variable of type double.
+    
+    LargeNumber aNumber;
+    
+    typedef double* PointerDouble;
+    //now PointerDouble can be used to 
+    //  declare a pointer to a double
+    
+    typedef int IntArray[15];
+    //IntArray now can be used to create
+    //  an array of integers of size fifteen.
+  </code>
+</pre>
+
+
+Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
+
+"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
+
 h2. Exceptions
 
 You will need to deal with three things to utilize exceptions in your code:
