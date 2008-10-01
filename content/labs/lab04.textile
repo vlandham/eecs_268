@@ -25,6 +25,7 @@ Also, we may want to convert the numbers into integers for further manipulation 
 
 So, "here is a snippet of code that might help with reading in the values":http://people.eecs.ku.edu/~jvalland/268/files/lab04/input.txt  In this I am ultimately storing the values in a 2d array.
 
+h3. IStringStream
 
 The istringstream class creates a stream from a string.  Allowing us to treat it as a stream and read in different values from it.  "More information about string stream":http://www.cplusplus.com/reference/iostream/stringstream/
 
