@@ -26,18 +26,11 @@ Also, we may want to convert the numbers into integers for further manipulation 
 So, "here is a snippet of code that might help with reading in the values":http://people.eecs.ku.edu/~jvalland/268/files/lab04/input.txt  In this I am ultimately storing the values in a 2d array.
 
 
-
-the istringstream class creates a stream from a string.  Allowing us to treat it as a stream and read in different values from it.  "More information about string stream":http://www.cplusplus.com/reference/iostream/stringstream/
+The istringstream class creates a stream from a string.  Allowing us to treat it as a stream and read in different values from it.  "More information about string stream":http://www.cplusplus.com/reference/iostream/stringstream/
 
 You would need to include the sstream library and string library to use this method 
 
 "Here is a link":http://www.parashift.com/c++-faq-lite/misc-technical-issues.html#faq-39.2 to the C++ FAQ which indicates that string streams are the better way to convert strings to integers.  Also has a lot of other good information on C++
-
-h2. Static variables
-
-Static variables are ones that are shared by multiple instances of the class.  With normal class variables, each instance (object) of the class got its own set of variables.  There is one static variable that is accessed and modified by all instances of the class.
-
-"Tutorial on using static variables":http://www.cprogramming.com/tutorial/statickeyword.html
 
 h2. DDD
 
@@ -74,4 +67,14 @@ Right-click on the variable name
 Select *Display <variable name>*
 
 Another pane will appear above your source code with a box containing the value of the variable you are displaying.  This box can be moved around to allow multiple variables to be viewed.
+
+h3. Backtrace
+
+After a few recursive calls, it would be nice to see how any particular call was entered and the variable values during that recursion.  Here the backtrace can be very useful.
+
+Click on the "Status" Dropdown menu
+
+Click on "Backtrace"
+
+You can now move up and down the stack, using the Up and Down buttons. At each level of the backtrace, you can see the variable values by hovering over them or displaying them as described above
 

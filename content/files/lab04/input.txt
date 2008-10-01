@@ -5,7 +5,7 @@ for(row=0;row<maxSize;row++)
 	{
 		
 		input = in.get(); //in is my input file stream.  get() gets the next character from that stream.
-		if(input == "_") //Then it is a blank spot. I have already initialized the board to all blanks
+		if(input == "*") //Then it is a blank spot. I have already initialized the board to all blanks
 										// so nothing else needs to be done
 		{
 			col++; 
