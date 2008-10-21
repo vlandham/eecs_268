@@ -11,123 +11,132 @@ order: 05
 
 h1. Lab 05
 
-h2. Overview
+h2. Inheritance
 
-This is a larger and significantly more complex, in terms of objects, lab then the previous ones (hence the 3 weeks to implement).  However, the implementation itself is fairly straightforward.  
+h3. Inheritance Syntax
 
-This is as much a project dealing with inheritance as it is with the queue and stack data structure.
-
-Probably want to be storing pointers in your List / Queue.
-
-h2. Inheritance Review
-
-You should implement the various customers as recommended in the lab hand-out.  This means the Customer class will be the super-class of both the RegularCustomer and VIP classes.
-
-
-h3. Static & Dynamic Casting 
-
-Can 'cast' a class from a parent to a super-class.  base class -> derived class is called *downcasting*.
-
-You can only use static casting, which uses the compiler to perform the conversion, on classes with no virtual methods. 
-
-Static casting example:
+To indicate a class is a subclass of another:
 
 <pre>
   <code>
-    // acct is originally of type * BankAcct, 
-    //  which is the parent class of SavingsAcct
-    SavingsAcct* d1 = static_cast<SavingsAcct*>(acct);
+    #include "Customer.h"
+
+    class FrequentCustomer : public Customer
   </code>
 </pre>
 
-*Dynamic casting* performs the cast conversion during runtime. Only works with polymorphic classes (those with a virtual method). 
+Here we see that FrequentCustomer is a subclass of Customer. FrequentCustomer inherits all the methods and attributes of Customer (except constructor and destructor).
 
-Here is an example from my implementation of lab 05.  Background: I am trying to determine which data structure (stack or queue) to add the new Customer to.  Both data structures are typedef'ed to hold Customer *. 
+h3. Pointers to Subclasses
 
-1. First you need to add a virtual method to your Customer class.  This can be accomplished by making your destructor virtual;
-
-<pre>
-<code>
-  virtual ~Customer(){};
-</code>
-</pre>
-
-2. Now you can use dynamic casting.  If the cast is unsuccessful, it returns a null pointer.  In this example, patron is of type Customer *.
+We can have pointers of type base class point to the subclass type.
 
 <pre>
   <code>
-    VIP * vip = dynamic_cast<VIP*>(patron);
-    if(vip) {
-      //then I know that the dynamic cast was successful, 
-      //  so the original type was a VIP class.
-    }
-    else {
-      //then the dynamic cast was unsuccessful, 
-      //  and so it was of type Customer or RegularCustomer
-    }
+    Customer c1;
+    EliteCustomer ec1;
+    Customer* cp1 = &c1;
+    // here's the pointer to a subclass
+    Customer* cp2 = &ec1;
   </code>
 </pre>
 
-So now you can try to dynamically cast your object to a new class, and if it is successful, then you know what type it originally was, and so you can modify your behavior according to original class.
-
-h2. Useful String Methods
-
-h3. find
-
-In this lab, we are performing different functions based on a naming scheme we read in.  But the names we read in have extra characters on the end.  Example: VIP7 is a vip, but how do we extract the 'VIP' part of the name to know he's a VIP.
-
-One easy way to do this is to use the string 'find' method.
-
-h4. Find Format:
-
+The main problem with this is that cp1 and cp2 are still just pointers to objects of type Customer, and so you can only call methods defined in the Customer class. 
+ 
 <pre>
-<code>
-  size_type find( const string& str, size_type index );
-</code>
+  <code>
+    cp2->getName(); // fine if its defined in Customer
+    cp2->getEliteStatus(); // compile error
+  </code>
 </pre>
+ 
+What's worse is that even if a method is reimplemented in the subclass, attempting to call that method will result in a call to the original implementation of the method
+ 
+<pre><code>
+    cp2->talk() // actually calls the talk method of the Customer class.
+    
+</code></pre>
 
-where 'str' is what you are searching for, and 'index' is where you start. 
+h3. Virtual Methods
 
-This returns a number of type @string::size_type@ representing the location where this 'str' string starts. But if this search string is not found, then, the method returns a @string::npos@.  
-
-So we can use this find method to check for "VIP" or "Customer" in the name, and take the appropriate action.
+So the solution for this problem is to declare the method as a virtual method in the base class.  This indicates to the compiler that a method could be overridden in the derived class, so check there first for an implementation.
 
 <pre>
   <code>
-    string::size_type vip_location = patronName.find( "VIP", 0 );
-    if(vip_location != string::npos) {
-      //...
+    class Customer
+    {
+      virtual std::string talk();
+      // note the virtual keyword.
+    };
+    
+    class EliteCustomer : public Customer
+    {
+      virtual std::string talk();
+      // overrides the talk() in Customer.
     }
+    
+    // now the call to talk
+    cp2->talk();
+    // calls the correct talk method
   </code>
 </pre>
 
-h3. at & length
+Useful "link for more information":http://www.cplusplus.com/doc/tutorial/polymorphism.html.
 
-We also need to check the VIP's number value to see if the next VIP should be added to the stack. We can use the at and length methods of string to get at the last value in the string:
+h3. Storing base class pointers in data structures
 
-@char num = name.at(name.length()-1);@
+This means you should be storing pointers to Customer in your Queue and Stack because they can point to instances of EliteCustomer and FrequentCustomer, so you'll need to implement only one version of both types.
 
+<pre>
+  <code>
+    class Stack
+    {
+    	typedef Customer* StackItemType;
+    	//...
+    	private:
+    	StackItemType* stack;
+  	};
+  	
+  	class Queue
+    {
+    	typedef Customer* QueueItemType;
 
-h2. Other
+    	struct ListNode
+    	{
+    		QueueItemType item;
+    		ListNode* next;
+    	};
+    };
+  </code>
+</pre>
 
-Use @#ifndef@ ... for provided code, to make life easier.  
+h2. Useful tips
 
-Use -Wall in your compiler statements in your makefile to output all warnings
+h3. A second virtual member
 
-h3. Command line argument checking
+To facilitate the requirements of the output printCurrentCustomer() method, which requires the level of the customer to be output, add another virtual method to the Customer class:
 
-You should add checking to ensure that the input file has been provided.
+<pre><code>
+  class Customer
+  {
+    //...
+    virtual std::string getCustomerDescription();
+  }
+  
+</code></pre>
 
-@if(argc != 2) //ERROR@
+This can be used to store the class of the customer, and then can be overridden in the derived classes.
 
-This error should be output to standard out and provide relevant information about how your program is supposed to be called.  for example, the error message could be:
+h3. Exception Handling
 
-@Usage: lab05 ./name/of/input/file.txt@
+Probably the easiest/cleanest way to deal with problems in this lab.  Create a simple exception class, as in the previous lab, and then throw an exception when a problem is encountered.  Catch this exception in main and output the error message, then continue reading in commands.
 
-You should also be checking to ensure that the input file was successfully opened.  Output a relevant error message if this is not the case as well.
+Remember, you should be dealing with the exceptions thrown by the stack and queue code as well.
 
-h3. Tar folder naming
+h3. Dynamic Allocation
 
-Please rename the folder you tar to send to me to something unique and relevant before tarring it.  This is because the original name is maintained after untarring so I end up with a bunch of folders named 'lab 3' when I'm trying to grade.  Something like
+You do not know how many Customers / EliteCustomers / FrequentCustomers you will be reading in.  So these all should be allocated dynamically, each time a new one is needed.  And again, you should be storing Customer pointers in your Stack and Queue.
 
-*jvalland_lab05*
+h3. getCurrentCustomer() Method
+
+You'll be finding the current customer in multiple places (when finishing, when printing, etc) -- encapsulate your process of getting the current customer in a method, so you only have to implement it once! 
