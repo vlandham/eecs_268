@@ -15,6 +15,8 @@ h2. Templates
 
 Templates are a way of generalizing code in C++.  They allow code to be written without consideration of the data type with which it will eventually be used.  This is particularly useful in storage structures, such as lists, stacks, queues, etc.  So instead of having a whole stack implementation for holding integers, and then another implementation for holding strings, you can create one stack implementation that can be instantiated multiple times to hold different data structures.  The compiler decides at compile time from your code what variable type the templated class is working with and instantiates it as such.
 
+This example goes over creating a templated version of a class with only parameter T.  More complicated templates using a larger number of parameters can be defined in a similar manner.
+
 h3. Steps to converting a class to a class template
 
 h4. 1. Template declaration
@@ -35,13 +37,13 @@ h4. 2. Replace old type with type parameter
 
 Go through your header file and every time you see the old variable type that is being generalized to the type parameter, replace it with T.
 
-For our use, the old variable type is typedefed to be 'StackItemType'.  So every time you see StackItemType, replace it with 'T'.  Then you can remove the typedef line.  
+For example, if the old variable type is typedefed to be 'StackItemType', every time you see StackItemType, replace it with 'T'.  Then you can remove the typedef line.  
 
 h4. 3. Convert class instance declarations to class template instance declarations
 
 Sorry for the confusing title, really this is easy.  Your new templated class will be called and created in a slightly different manner from how the original class was created.  It will include a definition of what T should be (we will see this later).
 
-But for now, all we need to do is add a &lt;T&gt; to places where the class is dealing with itself.  In our case, this is in the *copy constructor*.
+But for now, all we need to do is add a &lt;T&gt; to places where the class is dealing with itself.  In a common case, this is in the *copy constructor*.
 
 <pre>
 <code>
@@ -116,126 +118,22 @@ To instantiate your template class to an actual object that holds a particular t
 
 Where, the int here can be replaced with the type of variables you want this stack to hold.
 
-h2. Function Pointers
+h2. Function Objects
 
-"Great Introduction":http://www.newty.de/fpt/index.html -- *Please read this*
+A function object overloads the parentheses operator (), allowing it to be called as if it were a function. 
 
-Function pointers, as their name suggests are pointers that point to functions.  This works because functions / methods are just part of the memory used for the program and so have addresses just like anything else in the program.
-
-Example of a function pointer:
-
-if we had a function that looked like:
+This provides a way to define functionality at a higher level of the program and use it to affect data stored at a lower one.
 
 <pre>
   <code>
-    int aFunction  (float a, char b, char c)
-    { ... }
+    struct PrintFunctor
+    {
+      std::ostream& out;
+      PrintFunctor(std::ostream& o) : out(o) { }
+      template <typename T>
+      void operator() (T item) { out << item << std::endl; }
+    };
   </code>
 </pre>
 
-Then we could create a function pointer like:
-
-<pre>
-<code>
-  int (*pt2Function)(float, char, char) = NULL;
-</code>
-</pre>
-
-and assign it to the aFunction class like:
-
-<pre>
-<code>
-  pt2Function = &DoMore;
-</code>
-</pre>
-
-h3. Callbacks
-
-In this lab, a function pointer is used to provide a callback for the binary tree.  A call back allows you to define functionality in a higher level structure, and pass it to a lower level one. 
-
-Here the Example code provided by Miller shows how to use the call back to print the contents of the tree. 
-
-We will be implementing a callback function that solves the arithmetic equation held in the tree.
-
-It makes sense that the call back function should be a method of a class, however this requires a hack.  Non-static member functions of a class need the 'this' pointer of the class they are in, so this usually is passed in as a hidden input parameter.  We cannot do this, as the format of the callback function is fixed and does not include this parameter.  
-
-So we will make a static wrapper function that calls the callback, and a pointer to 'this' so that we can use it in the program.
-
-h4. Pointer to 'this'
-
-We are going to create a static pointer to 'this' so that the static wrapper function can access the methods of the class we are in and call the real solve method.  
-
-Here are the steps I took to create this pointer.
-
-h5. Create a static void pointer as a public attribute of your class
-
-Just create a member variable 
-
-<pre>
-<code>
-  static SolverClass* thisPointer
-</code>
-</pre>
-
-h5. Outside of your class definition, set the pointer to NULL
-
-This is needed so the compiler knows about this static variable.  At the top of your .cpp file for this class, initialize your static variable to NULL. Do this outside of any method definition.
-
-p((. %using namespace std;%
-
-p((. %SolverClass *SolverClass::thisPointer = NULL%
-
-h5. In the constructor of your class, assign this variable to 'this'
-
-<pre>
-<code>
-  thisPointer = this;
-</code>
-</pre>
-
-So now we can get access to our class we are in from a static method.
-
-The wrapper step will have more on how thisPointer is used.
-
-
-h4. Wrapper function
-
-This is a static method that will be the actual callback function, but it will just call our non-static member function to do all the work.  
-
-_header file_
-
-<pre>
-  <code>
-    static void Wrapper_To_Call_Solve(char& val); //wrapper
-    void solve(char& val); //actual method
-  </code>
-</pre>
-
-Now our implementation of the wrapper method will use this thisPointer to call the real solve method.
-
-<pre>
-  <code>
-    void SolverClass::Wrapper_To_Call_Solve(char& val) {
-      thisPointer->solve(val); // calls the actual non-static 
-                               //   solve with the input it got.
-    }
-  </code>
-</pre>
-
-h2. Notes on input
-
-Using the &gt; &gt; method with strings seems to work well.  It will bring in the whole first line, which you can break up further using array [] notation.  And then each component of the symbol table will be brought in separately.  
-
-h2. Options for symbol table
-
-Your symbol table will need to hold the character - double associations found after the equation of the input file.  You have a few options on the data structure you choose to hold this.
-
-It could be an *array of structs* where each struct has the char and the double values of one mapping.  To make life easier, you could assume that *no more than 20 symbols* would be in a single equation, and statically create this array. 
-
-A more flexible solution would be a *list of structs*, the structs being the same as before.  Here this would not have the same size limitation.
-
-You might also consider the STL map structure.  This maps a 'key' with a 'value'. The keys would be the symbols and the values would be the doubles.  
-
-"tutorial on map":http://www.cprogramming.com/tutorial/stl/stlmap.html
-
-"map methods":http://www.cplusplus.com/reference/stl/map/
+Here we are using structs, but teh same concept can be used with classes as well.  We declare a variable out that will store our output stream, as assigned by the constructor of the struct.  The the overloaded operator() is what does the work - and here its just sending the output of item to the filestream it read in from its constructor.
