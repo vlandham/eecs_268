@@ -7,6 +7,15 @@ filter:
 
 <%- #<div class="alert"></div> -%>
 
+h2. Lectures
+
+<% lectures = @pages.find(:all, :in_directory => "lectures").reject {|file| file.filename =~ /^\./}  %>
+<% if lectures %>
+<% lectures.each do |lec| %>
+h3. <%=  link_to lec.filename.gsub("268-","").gsub("-S09","").gsub("-"," "), lec %>
+<% end %>
+<% end %>
+
 h2. Labs
 
 <% labs = @pages.find(:all, :in_directory => "labs" ) %>
