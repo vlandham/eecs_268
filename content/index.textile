@@ -11,12 +11,23 @@ h2. Lectures
 
 <% lectures = @pages.find(:all, :in_directory => "lectures").reject {|file| file.filename =~ /^\./}  %>
 <% if lectures %>
+<% lectures.sort! {|x,y| x.filename.gsub(/.*L(\d+).*/,'\1').to_i <=> y.filename.gsub(/.*L(\d+).*/,'\1').to_i} %>
 <% lectures.each do |lec| %>
 h3. <%=  link_to lec.filename.gsub("268-","").gsub("-S09","").gsub("-"," "), lec %>
 <% end %>
 <% end %>
 
-h2. Labs
+h2. Lab Assignments
+
+<% lab_writeups = @pages.find(:all, :in_directory => "lab_assignments").reject {|file| file.filename =~ /^\./} %>
+<% if lab_writeups %>
+<% lab_writeups.sort! {|x,y| x.filename.gsub(/.*Lab (\d+).*/,'\1').to_i <=> y.filename.gsub(/.*Lab (\d+).*/,'\1').to_i} %>
+<% lab_writeups.each do |lab_writeup| %>
+h3. <%= link_to lab_writeup.filename.gsub("EECS 268 - ",""), lab_writeup %>
+<% end %>
+<% end %>
+
+h2. Lab Notes
 
 <% labs = @pages.find(:all, :in_directory => "labs" ) %>
 <% labs.sort! {|x,y| x.order.to_i <=> y.order.to_i } %>
