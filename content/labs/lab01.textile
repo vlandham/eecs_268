@@ -47,6 +47,101 @@ Commenting required in each source code file:
 
 4. Comments in the body of each function elaborating on important / difficult logic
 
+h2. typedef
+
+Format of a typedef statement:
+
+p((. typedef _DataType_ _AliasName_;
+
+_DataType_ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
+
+_AliasName_ is what you want the new name to be.
+
+h3. typedef examples
+
+* @typedef double LargeNumber;@
+** here @LargeNumber@ could now be used to declare a variable of type @double@.
+* @typedef double* PointerDouble;@
+** now @PointerDouble@ can be used to declare a pointer to a @double@.
+* @typedef int IntArray[15];@
+** @IntArray@ now can be used to create an array of @integers@ of size fifteen.
+
+Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
+
+"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
+
+h2. Matrix Determinant 
+
+Given a 2x2 matrix *M* with the values:
+
+p((. [m~0,0~,  m~0,1~]
+
+p((. [m<sub>1,0</sub>,  m<sub>1,1</sub>] 
+
+The determinant of *M* is given as:
+
+p((. m<sub>0,0</sub> x m<sub>1,1</sub> - m<sub>1,0</sub> x m<sub>0,1</sub>
+
+_Example:_ So given a matrix :
+
+p((. [5 , 6]
+
+p((. [2 , 3]
+
+The determinant would be:
+
+p((. 5 x 3 - 2 x 6 = 15 - 12 = 3
+
+For a square matrix larger than 2x2, the determinant can be found using the "expansion using minors and cofactors" method.  
+
+h3. Definitions
+
+*minor*
+
+A minor, N~i,j~ is the sub-matrix of the original matrix M with the ith row and jth column removed.
+
+*cofactor* 
+
+A cofactor for any element is either the minor or the opposite of the minor, depending on where the element is in the original determinant. If the row and column of the element add up to be an even number, then the cofactor is the same as the minor. If the row and column of the element add up to be an odd number, then the cofactor is the opposite of the minor.
+
+This is a confusing definition, but the formula is not difficult as we will see below.
+
+h3. Expansion Using Minors and Cofactors
+
+1. Pick any row or column in the matrix. It does not matter which row or which column you use, the answer will be the same for any row. 
+
+2. Multiply every element in that row or column by its cofactor and add. The result is the determinant.
+
+A simpler formula for this algorithm is:
+
+p((. det(M) = summation [ (-1)^i+j^ m~ij~ x N~i,j~ ]
+
+In this setup, the cofactors are taken care of using the (-1)^i+j^ which multiplies the minor( N~i,j~) by one or negative one, depending on the row and column.
+
+When the minors associated with each element are larger than 2x2, then they must be expanded in turn until they are reduced to 2x2 matrices, from which a determinant can be computed.
+
+_Example_ If the original matrix was of size 4x4, then this first expansion would create 4 minors, each of size 3x3.  Each 3x3 matrix would then need to be expanded to 3 2x2 matrices.  From these 2x2 matrices, a determinant is computed.
+
+h2. Matrix Inverse
+
+With a real number, A, the inverse of A, A^-1^ is the number such that A x A^-1^ = 1
+
+With a square matrix A, the inverse of A, A^-1^ is the matrix such that A x A^-1^ = identity matrix. (all 0's except for 1's on the main diagonal)
+
+For a matrix to have an inverse, its determinant cannot be 0.
+
+h2. Other Notes
+
+* "Review ostream":http://www.cplusplus.com/reference/iostream/ostream/
+** Look at formatting options when outputting numbers.
+* Input file to read from should be passed in as a *command line argument*.
+
+
+h2. Online Matrix Math
+
+check your determinant and inverse calculations "here":http://www.bluebit.gr/matrix-calculator/
+
+
 h2. Passing Command Line Arguments
 
 A very common requirement of an application is that it accepts parameters passed to it on execution.  In other words, many programs need some information during 'startup' to get going.
