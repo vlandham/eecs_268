@@ -47,34 +47,142 @@ Commenting required in each source code file:
 
 4. Comments in the body of each function elaborating on important / difficult logic
 
-h2. typedef
+h2. Classes
 
-Format of a typedef statement:
+Each class you create will consist of two files: a *header* file (@.h@) and *implementation* file (@.cpp@). 
 
-p((. typedef _DataType_ _AliasName_;
+h3. Header Files:
 
-_DataType_ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
+h4. Layout:
 
-_AliasName_ is what you want the new name to be.
+<pre>
+<code>
+  #ifndef _UNIQUENAME_
+  #define _UNIQUENAME_
+  //include statements
+  class ClassName
+  {
+    public:
+       //public methods
+       
+    private:
+       //private methods
+  };
+  #endif
+</code>
+</pre>
 
-h3. typedef examples
+h4. Description:
 
-* @typedef double LargeNumber;@
-** here @LargeNumber@ could now be used to declare a variable of type @double@.
-* @typedef double* PointerDouble;@
-** now @PointerDouble@ can be used to declare a pointer to a @double@.
-* @typedef int IntArray[15];@
-** @IntArray@ now can be used to create an array of @integers@ of size fifteen.
+The header file contains the definition of the class.  That is declarations of its functions as well as data it stores.  
 
-Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
+*#ifndef / #define / #endif*
 
-"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
+These are compiler pre-processors to prevent the header file from being included more than once in the linked program.  This is done because C++ cannot handle header files being included more than once.  
+
+Essentially, it checks to see if the pre-processor macro named @_UNIQUENAME_@ has already been defined, i.e. the header file has already been included.  If not, then it defines it and brings in the rest of the code until the @#endif@ statement.  If it has already been defined, then that indicates that this header file has already been included, and thus, the compiler skips down to the @#endif@ statement without including it again.
+
+Make sure the two @_UNIQUENAME_@ statements are the same.
+
+*include statements*
+
+Here you will include the other libraries / header files needed in the class.  Do *not* put 'using' statements, such as @using namespace std;@ into a header file, if at all possible.  So in a header file, if you are using a string type variable, you will want to declare it as std::string.  This applies to all functions and objects in the C++ standard library, including cout, cin, and the various streams. "More information":http://www.cplusplus.com/reference/ on the std library  
+
+*default constructor*
+
+This is a constructor with no arguments or one that gives all the arguments default values.  These default values should be defined in the header file and not in the implementation file.  Usually, this constructor is used to initialize private variables to standard values.
+
+*Note:* Don't forget to place a semicolon (@;@) after the closing bracket of the class definition! 
+
+Also, using const at the end of a function declaration indicates that the function cannot alter the classes data members.  
+
+
+h3. Implementation Files:
+
+h4. Layout:
+
+<pre>
+  <code>
+    #include HeaderFileName.h
+    //using statements
+    
+    returnType ClassName::methodName
+    {
+      //method implementation 
+    }
+  </code>
+</pre>
+
+h4. Example:
+
+<pre>
+  <code>
+    #include "Matrix.h"
+    using namespace std;
+
+    double Matrix::determinant( ) const
+    {
+      //...
+    }
+  </code>
+</pre>
+
+h4. Description:
+
+The format is fairly straightforward, as long as you remember to include the "@Matrix::@" part. 
+
+Inside a function definition, you can access the functions directly without the use of any prefix. So for example, inside the inverse function, the determinant function of the Matrix class could be called using @determinant()@ instead of @Matrix::determinant();@.
+
+h2. Operator Overloading
+
+All operator overloading means is that we are redefining methods to work with new data types.  The 'overloading' indicates that after redefining this method, the same method name can be called to execute multiple actual methods, based on the object it is being called on, and the input parameters of the call.
+
+h3. Simple Example:
+
+the '+' operator, when used with integers, performs arithmetic addition:
+
+<pre>
+  <code>
+    7 + 3 //returns 10
+  
+    // However, when used with strings, 
+    // the '+' operator performs concatenation:
+  
+    "Ben " + "Murphy" //returns "Ben Murphy"
+	</code>
+</pre>
+
+So this is a form of polymorphism : The ability of objects belonging to different types to respond to method calls of the same name, each one according to an appropriate type-specific behavior.
+
+h3. C++ Syntax
+
+For these arithmetic operators, we must use a special syntax to indicate to the system that we want to define a method in terms of a symbol (+,-,=, etc).
+
+This syntax is adheres to the following format:
+
+<pre>
+  <code>
+    <return_type> operator<symbol_to_overload>
+    	
+  </code>
+</pre>
+
+Example:  If we wanted to redefine the == inside of a Fraction class from lab 1, we could use something like:
+
+<pre>
+  <code>
+    bool operator==(const Fraction& rhs) const;
+
+  </code>
+</pre>
+
+Where the first @const@ inside the input arguments indicates that we can't change the value of rhs while the @const@ at the end indicates that no variables of the Fraction class will be modified.
 
 h2. Matrix Determinant 
 
 Given a 2x2 matrix *M* with the values:
 
-p((. [m~0,0~,  m~0,1~]
+p((. [m<sub>0,0</sub>,  m<sub>0,1</sub>]
 
 p((. [m<sub>1,0</sub>,  m<sub>1,1</sub>] 
 
@@ -98,7 +206,7 @@ h3. Definitions
 
 *minor*
 
-A minor, N~i,j~ is the sub-matrix of the original matrix M with the ith row and jth column removed.
+A minor, N<sub>i,j</sub> is the sub-matrix of the original matrix M with the ith row and jth column removed.
 
 *cofactor* 
 
@@ -114,9 +222,9 @@ h3. Expansion Using Minors and Cofactors
 
 A simpler formula for this algorithm is:
 
-p((. det(M) = summation [ (-1)^i+j^ m~ij~ x N~i,j~ ]
+p((. det(M) = summation [ (-1)<sup>i+j</sup> m<sub>ij</sub> x N<sub>i,j</sub> ]
 
-In this setup, the cofactors are taken care of using the (-1)^i+j^ which multiplies the minor( N~i,j~) by one or negative one, depending on the row and column.
+In this setup, the cofactors are taken care of using the (-1)<sup>i+j</sup> which multiplies the minor( N<sub>i,j</sub>) by one or negative one, depending on the row and column.
 
 When the minors associated with each element are larger than 2x2, then they must be expanded in turn until they are reduced to 2x2 matrices, from which a determinant can be computed.
 
@@ -124,9 +232,9 @@ _Example_ If the original matrix was of size 4x4, then this first expansion woul
 
 h2. Matrix Inverse
 
-With a real number, A, the inverse of A, A^-1^ is the number such that A x A^-1^ = 1
+With a real number, A, the inverse of A, A<sup>-1</sup> is the number such that A x A<sup>-1</sup> = 1
 
-With a square matrix A, the inverse of A, A^-1^ is the matrix such that A x A^-1^ = identity matrix. (all 0's except for 1's on the main diagonal)
+With a square matrix A, the inverse of A, A<sup>-1</sup> is the matrix such that A x A<sup>-1</sup> = identity matrix. (all 0's except for 1's on the main diagonal)
 
 For a matrix to have an inverse, its determinant cannot be 0.
 

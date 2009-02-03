@@ -11,136 +11,28 @@ order: 02
 
 h1. Lab 02
 
-h2. Classes
+h2. typedef
 
-Each class you create will consist of two files: a *header* file (@.h@) and *implementation* file (@.cpp@). 
+Format of a typedef statement:
 
-h3. Header Files:
+p((. typedef _DataType_ _AliasName_;
 
-h4. Layout:
+_DataType_ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
 
-<pre>
-<code>
-  #ifndef _UNIQUENAME_
-  #define _UNIQUENAME_
-  //include statements
-  class ClassName
-  {
-    public:
-       //public methods
-       
-    private:
-       //private methods
-  };
-  #endif
-</code>
-</pre>
+_AliasName_ is what you want the new name to be.
 
-h4. Description:
+h3. typedef examples
 
-The header file contains the definition of the class.  That is declarations of its functions as well as data it stores.  
+* @typedef double LargeNumber;@
+** here @LargeNumber@ could now be used to declare a variable of type @double@.
+* @typedef double* PointerDouble;@
+** now @PointerDouble@ can be used to declare a pointer to a @double@.
+* @typedef int IntArray[15];@
+** @IntArray@ now can be used to create an array of @integers@ of size fifteen.
 
-*#ifndef / #define / #endif*
+Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
 
-These are compiler pre-processors to prevent the header file from being included more than once in the linked program.  This is done because C++ cannot handle header files being included more than once.  
-
-Essentially, it checks to see if the pre-processor macro named @_UNIQUENAME_@ has already been defined, i.e. the header file has already been included.  If not, then it defines it and brings in the rest of the code until the @#endif@ statement.  If it has already been defined, then that indicates that this header file has already been included, and thus, the compiler skips down to the @#endif@ statement without including it again.
-
-Make sure the two @_UNIQUENAME_@ statements are the same.
-
-*include statements*
-
-Here you will include the other libraries / header files needed in the class.  Do *not* put 'using' statements, such as @using namespace std;@ into a header file, if at all possible.  So in a header file, if you are using a string type variable, you will want to declare it as std::string.  This applies to all functions and objects in the C++ standard library, including cout, cin, and the various streams. "More information":http://www.cplusplus.com/reference/ on the std library  
-
-*default constructor*
-
-This is a constructor with no arguments or one that gives all the arguments default values.  These default values should be defined in the header file and not in the implementation file.  Usually, this constructor is used to initialize private variables to standard values.
-
-*Note:* Don't forget to place a semicolon (@;@) after the closing bracket of the class definition! 
-
-Also, using const at the end of a function declaration indicates that the function cannot alter the classes data members.  
-
-
-h3. Implementation Files:
-
-h4. Layout:
-
-<pre>
-  <code>
-    #include HeaderFileName.h
-    //using statements
-    
-    returnType ClassName::methodName
-    {
-      //method implementation 
-    }
-  </code>
-</pre>
-
-h4. Example:
-
-<pre>
-  <code>
-    #include "Matrix.h"
-    using namespace std;
-
-    double Matrix::determinant( ) const
-    {
-      //...
-    }
-  </code>
-</pre>
-
-h4. Description:
-
-The format is fairly straightforward, as long as you remember to include the "@Matrix::@" part. 
-
-Inside a function definition, you can access the functions directly without the use of any prefix. So for example, inside the inverse function, the determinant function of the Matrix class could be called using @determinant()@ instead of @Matrix::determinant();@.
-
-h2. Operator Overloading
-
-All operator overloading means is that we are redefining methods to work with new data types.  The 'overloading' indicates that after redefining this method, the same method name can be called to execute multiple actual methods, based on the object it is being called on, and the input parameters of the call.
-
-h3. Simple Example:
-
-the '+' operator, when used with integers, performs arithmetic addition:
-
-<pre>
-  <code>
-    7 + 3 //returns 10
-  
-    // However, when used with strings, 
-    // the '+' operator performs concatenation:
-  
-    "Ben " + "Murphy" //returns "Ben Murphy"
-	</code>
-</pre>
-
-So this is a form of polymorphism : The ability of objects belonging to different types to respond to method calls of the same name, each one according to an appropriate type-specific behavior.
-
-h3. C++ Syntax
-
-For these arithmetic operators, we must use a special syntax to indicate to the system that we want to define a method in terms of a symbol (+,-,=, etc).
-
-This syntax is adheres to the following format:
-
-<pre>
-  <code>
-    <return_type> operator<symbol_to_overload>
-    	
-  </code>
-</pre>
-
-Example:  If we wanted to redefine the == inside of a Fraction class from lab 1, we could use something like:
-
-<pre>
-  <code>
-    bool operator==(const Fraction& rhs) const;
-
-  </code>
-</pre>
-
-Where the first @const@ inside the input arguments indicates that we can't change the value of rhs while the @const@ at the end indicates that no variables of the Fraction class will be modified. 
+"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
 
 h2. Checking if Filestream is Open
 
