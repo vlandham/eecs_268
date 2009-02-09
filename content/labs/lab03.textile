@@ -51,155 +51,28 @@ Note the format of the typedef calls matches normal variable declaration.  That 
 
 "more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
 
-h2. Exceptions
+h2. typedef
 
-You will need to deal with three things to utilize exceptions in your code:
+Format of a typedef statement:
 
-1. Define your own exception class (which can be a sub-class of one of the existing exception classes as explained below).
+p((. typedef _DataType_ _AliasName_;
 
-2. Throw your exception in your code when the error conditions have been met.
+_DataType_ can be any of the built-in data types in C++. So for example, it could be *integer* or *double*.
 
-3. Catch your thrown exception and deal with in in a try / catch statement. 
+_AliasName_ is what you want the new name to be.
 
-More information for each of these steps is given here.
+h3. typedef examples
 
-You will want to create one or more files to define your exceptions.  The easiest way to create a new exception class in C++ is by defining a sub-class of the existing exceptions in the @stdexcept@ / @exception@ library. 
+* @typedef double LargeNumber;@
+** here @LargeNumber@ could now be used to declare a variable of type @double@.
+* @typedef double* PointerDouble;@
+** now @PointerDouble@ can be used to declare a pointer to a @double@.
+* @typedef int IntArray[15];@
+** @IntArray@ now can be used to create an array of @integers@ of size fifteen.
 
-h3. Example Exception:
+Note the format of the typedef calls matches normal variable declaration.  That is to say, without the @typedef@ component each of these examples would create variables of the @DataType@ type.  However, instead of variable creation, with the @typedef@ statement, new types are created instead.  These new types can then be used as the prefix to the declaration of new variables. 
 
-<pre>
-  <code>
-    #include<stdexcept>
-    #include <string>
-    using namespace std;
-
-    class NewException : public out_of_range
-    {
-    public:
-
-      NewException(const string & message ="")
-        : out_of_range(message.c_str())
-      {} //Don't Forget these brackets!
-
-    }
-  </code>
-</pre>
-
-h3. Description
-
-This defines a @NewException@ class which is a sub-class of @out_of_range@.  In this class we have a default constructor which assigns the string parameter to the @message@ private variable of the @out_of_range@ class. (the function c_str() converts the string to a c-style string i.e. a character array.)  The new constructor is needed because sub-classes do not inherit the constructor and destructor of the parent class.  
-
-The public keyword in the class definition indicates that functions that were previously public in the parent class should remain public in the child class.  Because of this we can call the what() function as we will see below.
-
-h3. Exception use
-
-To make use of an exception such as the example above, one could create a header file called "Exceptions.h" and place this class definition inside this file. Make sure to use the @#ifndef@ set-up in this header file to avoid multiple inclusions of this exception header.
-
-Then if were used by a particular class, @Exceptions.h@ would first be included in that classes header file.
-
-Then the function definition of the function that threw this exception would be modified to include this information.  Here is an example:
-<code>
-    Matrix Matrix::inverse( ) const throw(NewException);
-</code>
-
-Inside this function, the exception would be thrown like this:
-<code>
-    throw NewException("error: message");
-</code>
-
-This thrown exception would need to be caught somewhere.  Usually this occurs in the method that has called the function.  For lab 2, these exceptions will be caught in the main method of the program. 
-
-h4. Example - catching of an exception:
-
-<pre>
-  <code>
-    try {
-      m.inverse()
-      catch(NewException e)
-      {
-        cout << e.what() << endl;
-      }
-  </code>
-</pre>
-
-e is the @NewException@ object created by the throw.  It contains the error message string.
-
-The @what()@ method is part of the parent class @out_of_range@ and returns the value of the @message@ variable which we assign to be the error message for the exception in the exception header file. 
-
-h3. Standard Exception classes
-
-Here are the classes in the @stdexcept@.  These are in the namespace @std@. Indention indicates sub-classing.
-
-<pre>
-  <code>
-    logic_error
-        domain_error
-        invalid_argument
-        length_error
-        out_of_range
-    runtime_error
-        range_error
-        overflow_error
-        underflow_error
-  </code>
-</pre>
-
-
-You could sub-class any of these exception class.
-
-Also, all of these classes are sub-classes of the @exception@ class, which you could sub-class directly.
-
-"More information on these exceptions":http://publib.boulder.ibm.com/infocenter/comphelp/v9v111/index.jsp?topic=/com.ibm.xlcpp9.aix.doc/standlib/header_stdexcept.htm
-
-
-h2. Pointers
-
-Remember, pointers store the address of a value stored somewhere else on the computer memory. Pointers point to strings / numbers / objects, but aren't actually any of those things.  
-
-h3. Syntax
-
-Here are the common usages of pointers.
-
-h4. Creation
-
-<pre><code>
-    int *p;      //-- creates a pointer that can point to integers
-    
-    string *s;   //-- creates a pointer that can only point to string objects
-    
-</code></pre>
-
-h4. Assigning an Address
-
-<pre>
-  <code>
-    int x = 7;   //-- x is just a normal integer
-    
-    p = &x;      //-- indicates that the pointer p now 
-                 //   contains the memory address of the variable x.
-                 //   So p points to x.
-  </code>
-</pre>
-
-h4. Assigning Values using Pointers
-
-<pre>
-  <code>
-    *p = 2;      //-- this changes the value stored in the address held by p. 
-                 //   Meaning *p and x will change.     
-  </code>
-</pre>
-
-h4. Using Multiple Pointers
-
-<pre>
-  <code>
-    int *q;		   //-- q is another integer pointer.
-    
-    q = p;       //-- q and p point to the same thing.  
-                 //   Meaning, p and q now contain the same memory address.
-  </code>
-</pre>
+"more information about typedef":http://www.functionx.com/cpp/keywords/typedef.htm
 
 "See my example":http://people.eecs.ku.edu/~jvalland/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
 
