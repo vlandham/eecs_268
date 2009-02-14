@@ -76,33 +76,12 @@ Note the format of the typedef calls matches normal variable declaration.  That 
 
 "See my example":http://people.eecs.ku.edu/~jvalland/files/lab03/pointers.cpp (mostly from the book) for more experience with pointers.
 
-h2. Using putback to replace content on an input stream
+h2. Using getline
 
 <pre>
   <code>
-    string command, event_name;
-  	int position;
-
-  	while (fin >> command)
-  	{
-  		if (command == "new-contestant")
-  		{
-  			fin >> event_name;
-
-  			// Find next character
-  			char check_position;
-  			fin >> check_position;
-
-  			// Replace character
-  			fin.putback(check_position);
-
-  			// Read in position
-  			if (isdigit(check_position)) fin >> position;
-  			else position = 0;
-  			
-  			//...
-			}
-		}
+    getline(in,a_string, '|')
+    
   </code>
 </pre>
 
@@ -133,6 +112,8 @@ If this were a statically allocated ListNode, the equivalent call would be @l_no
 </pre>
 
 Here we are dealing with the 'head' pointer.  Remember, head is not an actual node, but just another node pointer, just like the 'next' pointer in each ListNode.
+
+h2. Catching bad allocations
 
 <pre>
 <code>
