@@ -8,3 +8,5 @@ MyClass.o:MyClass.h MyClass.cpp
 	g++ -c MyClass.cpp
 clean:
 	rm -f *.o *~ lab1
+tar: clean
+	cd ..;tar cf ./jvalland_lab1.tar ./jvalland_lab1
