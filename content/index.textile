@@ -50,6 +50,15 @@ h3. <%= link_to lab.title, lab  %>
   <% end %>
 <% end %>
 
+h2. Exam Reviews
+
+<% exam_reviews = @pages.find(:all, :in_directory => "lab_assignments").reject {|file| file.filename =~ /^\./} %>
+<% if exam_reviews %>
+<% exam_reviews.each do |exam_review| %>
+h3. <%= link_to exam_review.filename, exam_review %>
+<% end %>
+<% end %>
+
 h2. Helpful Notes
 
 <% notes = @pages.find(:all, :in_directory => "notes", :sort_by => "mtime") %>
