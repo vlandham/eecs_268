@@ -9,27 +9,48 @@ filter:
 order: 04
 ---
 
-h1. lab 04
+h1. Lab 04
 
-h2. Rules of Sudoku
+h2. Using pair
 
-The sudoku board has 9 rows and 9 columns.  The board is further broken down into 3x3 regions.  The goal of the game is to populate the board with numbers from 1 to 9 so that no duplicate numbers exist in any row, column or region.
+This is our first introduction to template classes. Briefly, templated classes allow you to specify the thing they store/utilize at run time instead of compile time. In some ways, they are similar to how we have been using @typedef@: There is an abstraction between a particular data structure (linked list) and what that structure actually stores (strings, @Movie*@, etc).
 
-"More information on sudoku rules":http://www.sudoku.name/rules/en
+The pair template class is defined in @<utility>@ to keep pairs of values.  The header @<utility>@ also overloads the relational operators @==, <, !=, >, >=@ and @<=@ , so as to be able to compare pair objects of the same type directly:
 
-h2. Reading in Values
+Two pair objects are compared equal if the first elements in both objects compare equal to each other and both second elements compare equal to each other - they all have to match.
 
-We need to be able to read in values one at a time and determine if they need to be placed in the board and if so, where.  We cannot rely on carriage returns or spaces, as the lab states that they may or may not be present.  So, the input could look like the sample input given in the lab description, or it could be a single line of numbers and dashes, or something in between.
+In inequality comparisons (@<@, @>@), only the first element is compared, except if both first elements compare equal to each other, in this case only the second element is taken into consideration for the comparison operation.
 
-Also, we may want to convert the numbers into integers for further manipulation (although this is not necessary).
+<pre>
+  <code>
+    #include <iostream>
+    #include <utility>
+    #include <string>
+    using namespace std;
 
-So, "here is a snippet of code that might help with reading in the values":http://people.eecs.ku.edu/~jvalland/268/files/lab04/input.txt  In this I am ultimately storing the values in a 2d array.
+    int main () {
+      pair <string,double> product1 ("tomatoes",3.25);
+      pair <string,double> product2;
+      pair <string,double> product3;
 
-h3. IStringStream
+      product2.first = "lightbulbs";     // type of first is string
+      product2.second = 0.99;            // type of second is double
+
+      product3 = make_pair ("shoes",20.0);
+
+      cout << "The price of " << product1.first << " is $" << product1.second << "\n";
+      cout << "The price of " << product2.first << " is $" << product2.second << "\n";
+      cout << "The price of " << product3.first << " is $" << product3.second << "\n";
+      return 0;
+    }
+  </code>
+</pre>
+
+h2. IStringStream
 
 The istringstream class creates a stream from a string.  Allowing us to treat it as a stream and read in different values from it.  "More information about string stream":http://www.cplusplus.com/reference/iostream/stringstream/
 
-You would need to include the sstream library and string library to use this method 
+You would need to include to @#include <sstream>@ to get access to this library and also include the string library to use this method 
 
 "Here is a link":http://www.parashift.com/c++-faq-lite/misc-technical-issues.html#faq-39.2 to the C++ FAQ which indicates that string streams are the better way to convert strings to integers.  Also has a lot of other good information on C++
 
