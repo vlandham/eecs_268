@@ -29,7 +29,7 @@ h3. <%= link_to lab_writeup.filename.gsub("EECS 268 - ",""), lab_writeup %>
 
 h2. Lab Notes
 
-<% labs = @pages.find(:all, :in_directory => "labs" ) %>
+<% labs = @pages.find(:all, :in_directory => "labs" ).reject {|file| file.filename =~ /^\./}  %>
 <% labs.sort! {|x,y| x.order.to_i <=> y.order.to_i } %>
 <% labs.reject! {|lab| lab.order.to_i > SITE.latest} %>
 <% labs.each do |lab| %>
