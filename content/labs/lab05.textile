@@ -1,15 +1,15 @@
 ---
-title:  Lab 04
+title:  Lab 05
 layout: default
 
 filter:
   - erb
   - textile
 
-order: 04
+order: 05
 ---
 
-h1. lab 04
+h1. lab 05
 
 h2. Rules of Sudoku
 
