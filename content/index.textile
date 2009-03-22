@@ -5,7 +5,7 @@ filter:
   - textile
 ---
 
-<div class="alert">Lab 5 Deadline Extended to the week of March 23rd. Spring Break!</div>
+<!-- <div class="alert"></div> -->
 
 h2. Lectures
 
