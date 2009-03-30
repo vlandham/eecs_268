@@ -9,6 +9,12 @@ filter:
 order: 07
 ---
 
+h2. Link to Lower level Inheritance Stuff
+
+I found this useful:
+
+"C++ Polymorphism":http://www.alexandersandler.net/how-inheritance-encapsulation-and-polymorphism-work-in-cpp
+
 h2. Useful String Methods
 
 h3. find

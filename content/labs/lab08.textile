@@ -1,12 +1,12 @@
 ---
-title:  Lab 07
+title:  Lab 08
 layout: default
 
 filter:
   - erb
   - textile
 
-order: 07
+order: 09
 ---
 
 h1. Lab 06
