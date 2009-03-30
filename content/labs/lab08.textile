@@ -1,0 +1,275 @@
+---
+title:  Lab 07
+layout: default
+
+filter:
+  - erb
+  - textile
+
+order: 07
+---
+
+h1. Lab 06
+
+h2. Random Number Generation
+
+Simple random numbers can be created with the @rand()@ function.  This is part of the @cstdlib@ library.Because we are comparing multiple sorting algorithms, it makes sense to test them on the same data.  So, we want the randomly generated array used in one sorting method to be the same randomly generated array used in another.  This can be done by 'seeding' the random number generator, so that using this seed, the generator will create the same random numbers in the same order.  Seeding the random number function can be done with the @srand()@ function.  You *only want to seed once*.  That is to say you don't want to seed each time you create a new random number, but just once before the number creation process starts.
+
+Another, more complicated method is also given below, which is supposedly immune to the possible pattern generation of the simple mod method.  This method divides the randomly generated number by the maximum possible value for randomly generated numbers, creating a number from 0 to 1.  This is then multiplied by the number of integers between the min and max number and added to the minimum number.  The code is slightly more complicated than the description I give, but thats the short of it.
+
+h3. Random Numbers: Example code
+
+h4. Simple Modulus Method
+
+<pre>
+  <code>
+    #include <cstdlib>
+    srand(123);   //seed the random number generator
+    int highest = 100;
+    int lowest = 0;
+    int randomNumber = lowest + rand()%((highest-lowest)+1);
+  </code>
+</pre>
+
+h4. More Complicated Method
+
+<pre>
+  <code>
+    #include <cstdlib>
+    srand(123);   //seed the random number generator
+    int highest = 100;
+    int lowest = 0;
+    int range = (highest-lowest)+1;
+    int randomNumber = lowest+int(range*(rand()/(RAND_MAX+1.0)));
+  </code>
+</pre>
+
+Probably either one of these will work for our purposes, people just seem to lean towards using the second one.
+
+h2. Timing 
+
+Timing code execution can be done in C++ using the @ctime@ library.  
+
+h3. Example code
+
+<pre>
+  <code>
+    #include <sys/time.h>
+    
+    // Used to get the time of day for timing comparisons.
+    unsigned long getTime()
+    {
+      timeval tv;
+      gettimeofday (&tv, NULL);
+      return tv.tv_sec * 1000000ul + tv.tv_usec;
+    }
+  </code>
+</pre>
+
+Here is the function being used:
+
+<pre>
+  <code>
+    unsigned long start;
+    unsigned long finish;
+    
+    start= getTime();
+
+    // do something
+
+    finish = getTime();
+    unsigned long totalTime = finish - start;
+  </code>
+</pre>
+
+In the @getTime@ function, we utilize the @gettimeofday@ function passing in a @timeval@ struct that is modified to contain the current time.  Inside this struct we have two values: @tv_sec@ which holds the number of seconds passed since January 1, 1970, and @tv_usec@, the number of microseconds.  We return the summation of the number of seconds passed, converted to microseconds, and the number of microseconds passed.
+
+Check out the man page for @gettimeofday@ for more information.
+
+h3. Timing Considerations
+
+Other applications running, and other issues might affect the performance of these algorithms.  This is why it would probably be in your best interest to keep the conditions of your computer as static as possible when running these tests. 
+
+You can make sure it compiles on the EECS computers (and runs), but do the actual tests on your computer, where there will most likely be more controllable conditions. 
+
+Remember, only include the sorting in your timing tests.  *Don't include the array creation in your timing*.
+
+h2. Other Notes
+
+The file @SelectionSort.cpp@ has the typedef statement used in all the other sorting algorithms, so in your main file, include it before any of the others. 
+
+Use the _strcomp() == 0_ method if you want to leave your input arguments as c strings.
+
+The Selection sort file includes two functions @indexOfLargest@ and @swap@ that need to be declared before the @selectionSort@ function.
+
+The Merge sort has a maximum integer size that you can modify to be the maximum value needed for these experiments.
+
+Make sure you *delete* the array at the end of the program.
+
+h2. Automation of Testing
+
+A shell script could be used to automatically call these tests and append their outputs to a file. 
+
+Shell scripts usually have the file extension '.sh'. 
+
+A shell script starts with a line indicating the interpreter program that will execute the file.  In our case, we would like the default shell to run the commands so our first line would be:
+
+<pre>
+<code>
+  #!/bin/sh
+</code>
+</pre>
+
+Then we can add lines to the file, each one will be executed as if they were typed in from the command prompt.
+
+<pre>
+<code>
+  ./lab06 250 random selection >> select_out.txt
+  ./lab06 500 random selection >> select_out.txt
+</code>
+</pre>
+
+Note the use of the '>>' character.  This *redirects* the output of the command to a file.  The double arrow indicates that the output will be *appended* to the file, instead of overwriting the contents of the output file.
+
+So you could make a line like this for everyone of your needed commands and have the output be added to one or more files. (You would probably want that output to include some information about the current test being executed, so you don't get the times confused.)
+
+To make this shell script executable, navigate to the directory holding it in the terminal and add executable rights to the file:
+
+<pre>
+<code>
+  chmod +x lab06.sh
+</code>
+</pre>
+
+then you can run it from the command line like a normal executable program.
+
+Shell scripts can be considerably more complex (loops, if/then, etc), but this should be sufficient for the application.
+
+h1. Lab 07 
+
+h2. Templates
+
+Templates are a way of generalizing code in C++.  They allow code to be written without consideration of the data type with which it will eventually be used.  This is particularly useful in storage structures, such as lists, stacks, queues, etc.  So instead of having a whole stack implementation for holding integers, and then another implementation for holding strings, you can create one stack implementation that can be instantiated multiple times to hold different data structures.  The compiler decides at compile time from your code what variable type the templated class is working with and instantiates it as such.
+
+This example goes over creating a templated version of a class with only parameter T.  More complicated templates using a larger number of parameters can be defined in a similar manner.
+
+h3. Steps to converting a class to a class template
+
+h4. 1. Template declaration
+
+The class needs to be explicitly declared a class template.  So right above your class declaration add the line:
+
+<pre>
+<code>
+  template <class T>
+</code>
+</pre>
+
+This indicates that the following class will be a class template.  The 'class' in this declaration is associated with the T and not specifically the class template.  The T is the type parameter, which will represent the variable type eventually used when the class template is instantiated. 
+
+*Note:* You could really name this type parameter, T, anything you want.  It could be called 'TemplateClass' or 'TC', or whatever.  Just usually you will see it named 'T', so that is what we will use. 
+
+h4. 2. Replace old type with type parameter
+
+Go through your header file and every time you see the old variable type that is being generalized to the type parameter, replace it with T.
+
+For example, if the old variable type is typedefed to be 'StackItemType', every time you see StackItemType, replace it with 'T'.  Then you can remove the typedef line.  
+
+h4. 3. Convert class instance declarations to class template instance declarations
+
+Sorry for the confusing title, really this is easy.  Your new templated class will be called and created in a slightly different manner from how the original class was created.  It will include a definition of what T should be (we will see this later).
+
+But for now, all we need to do is add a &lt;T&gt; to places where the class is dealing with itself.  In a common case, this is in the *copy constructor*.
+
+<pre>
+<code>
+  Stack(const Stack & aStack);
+</code>
+</pre>
+
+becomes
+
+<pre>
+<code>
+  Stack(const Stack<T> & aStack);
+</code>
+</pre>
+
+Do this in your .cpp file as well.
+
+h4. 4. Convert methods to template methods
+
+Go into your implementation file.  Now each method definition should contain the full prefix for the class template.  This includes the template declaration as well as the type parameter that will become part of the class declaration.  
+
+Also, as before in the declarations, modify the old type to the new type parameter - T
+
+So, for example, the push method previously looked like:
+
+<pre>
+<code>
+  void Stack::push(const StackItemType & newItem) throw(StackException)
+</code>
+</pre>
+
+Now as a method template it will look like:
+
+<pre>
+  <code>
+    template <class T>;
+    void Stack<T>::(const T& newItem) throw(StackException)
+  </code>
+</pre>
+
+Repeat for all methods.
+
+h4. 5. Replace old type with type parameter in declarations
+
+If there is a place in your .cpp file where you create a temporary variable or a new instance of the old variable type that the class once dealt with, replace it as you did in the header file with T
+
+h4. 6. Switch around includes
+
+Templates are supposed to be declared and defined in a single header file.  We already have them in two files, so we can switch around the include statements so that the compiler thinks its all in one file.
+
+Remove the #include statement in the .cpp file that includes the header file for this class
+
+Add to the bottom of the header file an #include statement that includes the .cpp file there.
+
+When the compiler compiles this header file, it will see the include statement at the bottom of this file and immediately include the .cpp file into what is seemingly the 'same file'.  
+
+If you have the 'ifndef /define' compiler instructions, put the .cpp include statement before the #endif
+
+h4. 7. Makefile
+
+You don't have to create an object file from this class, as we are pretending that the .h and .cpp are all in one file.  
+
+h4. 8. Using your new template class
+
+To instantiate your template class to an actual object that holds a particular type you would create it like:
+
+<pre>
+<code>
+  Stack<int> newStack;
+</code>
+</pre>
+
+Where, the int here can be replaced with the type of variables you want this stack to hold.
+
+h2. Function Objects
+
+A function object overloads the parentheses operator (), allowing it to be called as if it were a function. 
+
+This provides a way to define functionality at a higher level of the program and use it to affect data stored at a lower one.
+
+<pre>
+  <code>
+    struct PrintFunctor
+    {
+      std::ostream& out;
+      PrintFunctor(std::ostream& o) : out(o) { }
+      template <typename T>
+      void operator() (T item) { out << item << std::endl; }
+    };
+  </code>
+</pre>
+
+Here we are using structs, but teh same concept can be used with classes as well.  We declare a variable out that will store our output stream, as assigned by the constructor of the struct.  The the overloaded operator() is what does the work - and here its just sending the output of item to the filestream it read in from its constructor.
