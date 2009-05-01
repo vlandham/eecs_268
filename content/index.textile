@@ -5,7 +5,7 @@ filter:
   - textile
 ---
 
-<!-- <div class="alert"></div> -->
+<div class="alert">Please come to your respective lab class to check your final class grades.</div>
 
 h2. Lectures
 
