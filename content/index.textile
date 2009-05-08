@@ -5,7 +5,10 @@ filter:
   - textile
 ---
 
-<div class="alert">Please come to your respective lab class to check your final class grades.</div>
+<div class="alert">Office Hours May 11th: <br/>
+  Jim: 10:00 - 12:00 <br/>
+  Mark: 1:00 - 3:00
+  </div>
 
 h2. Lectures
 
